@@ -1,1420 +1,1633 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drone Math Master | STEM Learning Platform</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #0066cc;
-      --primary-dark: #004d99;
-      --primary-light: #e6f2ff;
-      --secondary: #00a86b;
-      --secondary-dark: #008055;
-      --accent: #ff6b35;
-      --dark: #2d3748;
-      --light: #f8f9fa;
-      --gray: #6c757d;
-      --success: #28a745;
-      --warning: #fd7e14;
-      --danger: #dc3545;
-      --border-radius: 8px;
-      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      --transition: all 0.3s ease;
-    }
-    
-    body {
-      background: #f5f7fa;
-      color: var(--dark);
-      font-family: 'Roboto', sans-serif;
-      line-height: 1.6;
-      padding: 0;
-      margin: 0;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    header {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      padding: 20px 0;
-      box-shadow: var(--box-shadow);
-    }
-    
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    .logo-icon {
-      font-size: 32px;
-    }
-    
-    .logo-text h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 24px;
-      margin: 0;
-    }
-    
-    .logo-text p {
-      font-size: 14px;
-      opacity: 0.9;
-      margin: 0;
-    }
-    
-    .user-controls {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-    
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: var(--border-radius);
-      font-weight: 500;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-      border: none;
-    }
-    
-    .btn-primary {
-      background-color: var(--primary);
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      background-color: var(--primary-dark);
-      transform: translateY(-2px);
-    }
-    
-    .btn-outline {
-      background-color: transparent;
-      border: 2px solid white;
-      color: white;
-    }
-    
-    .btn-outline:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-    
-    main {
-      padding: 30px 0;
-    }
-    
-    .dashboard {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: 30px;
-    }
-    
-    .sidebar {
-      background: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 20px;
-      height: fit-content;
-    }
-    
-    .sidebar-section {
-      margin-bottom: 25px;
-    }
-    
-    .sidebar-section h3 {
-      font-size: 16px;
-      color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 15px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .sidebar-menu {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    
-    .sidebar-menu li {
-      margin-bottom: 8px;
-    }
-    
-    .sidebar-menu a {
-      display: block;
-      padding: 8px 10px;
-      color: var(--dark);
-      text-decoration: none;
-      border-radius: 4px;
-      transition: var(--transition);
-    }
-    
-    .sidebar-menu a:hover, .sidebar-menu a.active {
-      background-color: var(--primary-light);
-      color: var(--primary);
-    }
-    
-    .sidebar-menu a i {
-      margin-right: 10px;
-      width: 20px;
-      text-align: center;
-    }
-    
-    .content-area {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-    
-    .card {
-      background: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 25px;
-    }
-    
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .card-header h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-      font-size: 20px;
-      margin: 0;
-      color: var(--primary);
-    }
-    
-    .card-header .actions {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .controls {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-      margin-bottom: 25px;
-    }
-    
-    .control-group {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .control-group label {
-      font-weight: 500;
-      margin-bottom: 8px;
-      color: var(--gray);
-      font-size: 14px;
-    }
-    
-    select, input, textarea {
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: var(--border-radius);
-      font-family: 'Roboto', sans-serif;
-      transition: var(--transition);
-    }
-    
-    select:focus, input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
-    }
-    
-    .flight-visualization {
-      position: relative;
-    }
-    
-    canvas {
-      width: 100%;
-      height: 400px;
-      border-radius: var(--border-radius);
-      background: white;
-      border: 1px solid #eee;
-      display: block;
-    }
-    
-    .equation-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    
-    .equation-btn {
-      background-color: var(--secondary);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 30px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      border: none;
-    }
-    
-    .equation-btn:hover {
-      background-color: var(--secondary-dark);
-      transform: translateY(-2px);
-    }
-    
-    .equation-btn.active {
-      background-color: var(--primary);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-top: 25px;
-    }
-    
-    .info-card {
-      background: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 20px;
-      border-top: 4px solid var(--primary);
-      transition: var(--transition);
-    }
-    
-    .info-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    }
-    
-    .info-card h4 {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--primary);
-      margin-top: 0;
-      margin-bottom: 15px;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .info-card h4 i {
-      font-size: 20px;
-    }
-    
-    .info-card p {
-      color: var(--gray);
-      margin: 0;
-      font-size: 14px;
-    }
-    
-    .learning-section {
-      margin-top: 30px;
-    }
-    
-    .problem-container {
-      background: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 25px;
-      margin-bottom: 20px;
-    }
-    
-    .problem-container h3 {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--primary);
-      margin-top: 0;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .problem-container h3 i {
-      color: var(--accent);
-    }
-    
-    .problem-content {
-      background: var(--primary-light);
-      padding: 20px;
-      border-radius: var(--border-radius);
-      margin-bottom: 20px;
-    }
-    
-    .answer-input {
-      margin-bottom: 20px;
-    }
-    
-    .answer-input textarea {
-      width: 100%;
-      min-height: 100px;
-      padding: 15px;
-      border-radius: var(--border-radius);
-      border: 1px solid #ddd;
-      font-family: 'Roboto', sans-serif;
-      resize: vertical;
-    }
-    
-    .feedback-container {
-      background: white;
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      padding: 25px;
-    }
-    
-    .feedback-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    
-    .feedback-header h3 {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--primary);
-      margin: 0;
-    }
-    
-    .feedback-content {
-      padding: 15px;
-      border-radius: var(--border-radius);
-    }
-    
-    .feedback-correct {
-      background: rgba(40, 167, 69, 0.1);
-      border-left: 4px solid var(--success);
-    }
-    
-    .feedback-incorrect {
-      background: rgba(220, 53, 69, 0.1);
-      border-left: 4px solid var(--danger);
-    }
-    
-    .progress-container {
-      margin-top: 30px;
-    }
-    
-    .progress-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    
-    .progress-header h4 {
-      margin: 0;
-      color: var(--gray);
-      font-size: 14px;
-    }
-    
-    .progress-bar {
-      height: 10px;
-      background: #eee;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-bottom: 5px;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--secondary), var(--success));
-      width: 0%;
-      transition: width 0.5s ease;
-    }
-    
-    .progress-stats {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--gray);
-    }
-    
-    .segment {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 8px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      z-index: 10;
-    }
-    
-    .segment-distance {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 5px 8px;
-      border-radius: 12px;
-      font-size: 10px;
-      font-weight: 500;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-      z-index: 10;
-    }
-    
-    .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 500;
-      background: var(--primary-light);
-      color: var(--primary);
-    }
-    
-    .badge-success {
-      background: rgba(40, 167, 69, 0.1);
-      color: var(--success);
-    }
-    
-    .badge-warning {
-      background: rgba(253, 126, 20, 0.1);
-      color: var(--warning);
-    }
-    
-    .badge-danger {
-      background: rgba(220, 53, 69, 0.1);
-      color: var(--danger);
-    }
-    
-    footer {
-      background: var(--dark);
-      color: white;
-      padding: 30px 0;
-      margin-top: 50px;
-    }
-    
-    .footer-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 30px;
-    }
-    
-    .footer-column h4 {
-      font-family: 'Montserrat', sans-serif;
-      margin-top: 0;
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-    
-    .footer-column ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    
-    .footer-column ul li {
-      margin-bottom: 8px;
-    }
-    
-    .footer-column ul li a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      transition: var(--transition);
-      font-size: 14px;
-    }
-    
-    .footer-column ul li a:hover {
-      color: white;
-    }
-    
-    .copyright {
-      text-align: center;
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 13px;
-    }
-    
-    @media (max-width: 768px) {
-      .dashboard {
-        grid-template-columns: 1fr;
-      }
-      
-      .header-content {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-      }
-      
-      .user-controls {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENIGMA STEM ENGINE | AIRM Learning Platform</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include html2pdf for certificate generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #A855F7;
+            --primary-dark: #7E22CE;
+            --secondary: #3B82F6;
+            --secondary-dark: #2563EB;
+            --accent: #FF6B35;
+            --dark: #0A0A0A;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+        }
+        
+        body {
+            background-color: #0A0A0A;
+            color: #FFFFFF;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+        }
+        
+        .drone-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.7;
+            z-index: -1;
+        }
+        
+        .accent-button {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: transform 0.3s ease;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .accent-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+        }
+        
+        .section-heading {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        .content-section, .hero-section {
+            background: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            background: transparent;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .logo-svg {
+            width: 150px;
+            height: auto;
+        }
+        
+        .info-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .info-card {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.2);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .info-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-card h4 i {
+            font-size: 20px;
+            color: var(--secondary);
+        }
+        
+        .info-card p {
+            color: #D1D5DB;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            background: rgba(20, 20, 20, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: block;
+            backdrop-filter: blur(5px);
+        }
+        
+        .equation-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-family: 'Exo 2', sans-serif;
+            margin: 5px;
+        }
+        
+        .equation-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .equation-btn.active {
+            background-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+        
+        .problem-container {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .problem-container h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .problem-content {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .answer-input textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(30, 30, 30, 0.7);
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            resize: vertical;
+        }
+        
+        .feedback-container {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .feedback-correct {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid #28A745;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .feedback-incorrect {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid #DC3545;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .nav-link {
+            color: #D1D5DB;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Exo 2', sans-serif;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(168, 85, 247, 0.1);
+        }
+        
+        .sidebar {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu a {
+            color: #D1D5DB;
+            transition: all 0.3s ease;
+            font-family: 'Exo 2', sans-serif;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            color: var(--primary);
+        }
+        
+        .certificate-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .certificate {
+            background: white;
+            width: 800px;
+            max-width: 90%;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            color: #333;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
+            border: 10px solid #A855F7;
+        }
+        
+        .certificate h2 {
+            font-size: 28px;
+            color: #3B82F6;
+            margin-bottom: 10px;
+        }
+        
+        .certificate h3 {
+            font-size: 22px;
+            color: #A855F7;
+            margin-bottom: 30px;
+        }
+        
+        .certificate p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .certificate .signature {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .competition-card {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .competition-card h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .competition-card p {
+            color: #D1D5DB;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .drone-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .control-btn i {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--secondary);
+        }
+        
+        .connect-form {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .connect-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(30, 30, 30, 0.7);
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            margin-bottom: 15px;
+        }
+        
+        .language-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+        }
+        
+        @media (max-width: 768px) {
+            .logo-svg {
+                width: 100px;
+            }
+            
+            .certificate {
+                padding: 20px;
+            }
+            
+            .certificate h2 {
+                font-size: 22px;
+            }
+            
+            .certificate h3 {
+                font-size: 18px;
+            }
+            
+            .certificate p {
+                font-size: 16px;
+            }
+            
+            .drone-controls {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <div class="header-content">
-        <div class="logo">
-          <div class="logo-icon">
-            <i class="fas fa-drone-alt"></i>
-          </div>
-          <div class="logo-text">
-            <h1>Drone Math Master</h1>
-            <p>STEM Learning Platform for Future Aviators</p>
-          </div>
+    <!-- Drone Swarm Canvas -->
+    <canvas id="droneCanvas" class="drone-canvas"></canvas>
+
+    <!-- Certificate Modal -->
+    <div class="certificate-container" id="certificateContainer">
+        <div class="certificate" id="certificate">
+            <h2>CERTIFICATE OF MASTERY</h2>
+            <h3>DRONE MATHEMATICS EXPERT</h3>
+            <p>This is to certify that</p>
+            <h4 id="studentName">[Student Name]</h4>
+            <p>has successfully demonstrated mastery of</p>
+            <h4 id="certificateEquation">[Mathematical Concept]</h4>
+            <p>and its applications in drone technology</p>
+            <div class="signature">
+                <div>
+                    <p>_________________________</p>
+                    <p>Dr. Alex Johnson</p>
+                    <p>Chief Learning Officer, ENIGMA STEM ENGINE</p>
+                </div>
+                <div>
+                    <p>_________________________</p>
+                    <p>Date: <span id="certificateDate"></span></p>
+                </div>
+            </div>
+            <button class="accent-button mt-6" onclick="downloadCertificate()">
+                <i class="fas fa-download mr-2"></i> Download Certificate
+            </button>
+            <button class="accent-button mt-4" onclick="closeCertificate()" style="background: #6c757d;">
+                <i class="fas fa-times mr-2"></i> Close
+            </button>
         </div>
-        <div class="user-controls">
-          <button class="btn btn-outline"><i class="fas fa-user-graduate"></i> Student Dashboard</button>
-          <button class="btn btn-primary"><i class="fas fa-sign-out-alt"></i> Logout</button>
-        </div>
-      </div>
     </div>
-  </header>
-  
-  <main class="container">
-    <div class="dashboard">
-      <aside class="sidebar">
-        <div class="sidebar-section">
-          <h3>Navigation</h3>
-          <ul class="sidebar-menu">
-            <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-chart-line"></i> Progress Analytics</a></li>
-            <li><a href="#"><i class="fas fa-book"></i> Learning Modules</a></li>
-            <li><a href="#"><i class="fas fa-trophy"></i> Achievements</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-          </ul>
-        </div>
-        
-        <div class="sidebar-section">
-          <h3>Recent Flights</h3>
-          <ul class="sidebar-menu">
-            <li><a href="#"><i class="fas fa-map-marked-alt"></i> July 23, 2024</a></li>
-            <li><a href="#"><i class="fas fa-map-marked-alt"></i> DR-2456</a></li>
-            <li><a href="#"><i class="fas fa-map-marked-alt"></i> DR-2455</a></li>
-          </ul>
-        </div>
-        
-        <div class="sidebar-section">
-          <h3>Quick Access</h3>
-          <ul class="sidebar-menu">
-            <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
-            <li><a href="#"><i class="fas fa-file-alt"></i> Documentation</a></li>
-            <li><a href="#"><i class="fas fa-video"></i> Tutorial Videos</a></li>
-          </ul>
-        </div>
-      </aside>
-      
-      <div class="content-area">
-        <div class="card">
-          <div class="card-header">
-            <h2><i class="fas fa-map-marked-alt"></i> Flight Path Analysis</h2>
-            <div class="actions">
-              <button class="btn btn-primary"><i class="fas fa-download"></i> Export Data</button>
-              <button class="btn btn-primary"><i class="fas fa-share-alt"></i> Share</button>
-            </div>
-          </div>
-          
-          <div class="controls">
-            <div class="control-group">
-              <label for="classSelect"><i class="fas fa-graduation-cap"></i> Grade Level</label>
-              <select id="classSelect" onchange="loadEquations()">
-                <option value="">-- Select Grade --</option>
-                <option value="6">Grade 6</option>
-                <option value="7">Grade 7</option>
-                <option value="8">Grade 8</option>
-                <option value="9">Grade 9</option>
-                <option value="10">Grade 10</option>
-                <option value="11">Grade 11</option>
-                <option value="12">Grade 12</option>
-              </select>
-            </div>
-            
-            <div class="control-group">
-              <label for="flightSelect"><i class="fas fa-drone"></i> Flight Session</label>
-              <select id="flightSelect">
-                <option value="1">Last Flight (July 23, 2024)</option>
-                <option value="2">Flight #DR-2456</option>
-                <option value="3">Flight #DR-2455</option>
-              </select>
-            </div>
-            
-            <div class="control-group">
-              <label for="analysisType"><i class="fas fa-chart-pie"></i> Analysis Type</label>
-              <select id="analysisType">
-                <option value="basic">Basic Geometry</option>
-                <option value="advanced">Advanced Calculations</option>
-                <option value="performance">Performance Metrics</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="flight-visualization">
-            <canvas id="flightCanvas" width="800" height="400"></canvas>
-          </div>
-          
-          <div class="equation-list" id="equationList"></div>
-          
-          <div class="info-grid" id="equationInfo">
-            <div class="info-card">
-              <h4><i class="fas fa-history"></i> Historical Context</h4>
-              <p id="origin">Select an equation to learn about its historical development and significance in mathematics.</p>
-            </div>
-            
-            <div class="info-card">
-              <h4><i class="fas fa-rocket"></i> Modern Applications</h4>
-              <p id="modernUse">Discover how this mathematical concept is applied in modern technology, especially in drone aviation.</p>
-            </div>
-            
-            <div class="info-card">
-              <h4><i class="fas fa-drone"></i> Drone Technology</h4>
-              <p id="droneImpact">Learn how this equation impacts drone flight paths, navigation, and performance optimization.</p>
-            </div>
-            
-            <div class="info-card">
-              <h4><i class="fas fa-code"></i> Programming</h4>
-              <p id="coding">See practical examples of how to implement this mathematical concept in programming code.</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="learning-section">
-          <div class="problem-container">
-            <h3><i class="fas fa-puzzle-piece"></i> Learning Challenge</h3>
-            <div class="problem-content" id="problemArea">
-              <p>Select an equation from above to receive a customized problem based on the current flight path analysis.</p>
-            </div>
-            
-            <div class="answer-input">
-              <textarea id="studentAnswer" placeholder="Type your solution here... Be sure to show your work and explain your reasoning."></textarea>
-              <button class="btn btn-primary" onclick="checkAnswer()"><i class="fas fa-paper-plane"></i> Submit Answer</button>
-            </div>
-          </div>
-          
-          <div class="feedback-container" id="feedbackContainer" style="display: none;">
-            <div class="feedback-header">
-              <h3><i class="fas fa-comment-dots"></i> Feedback</h3>
-              <span class="badge" id="feedbackBadge">New</span>
-            </div>
-            <div class="feedback-content" id="feedbackArea"></div>
-          </div>
-          
-          <div class="progress-container">
-            <div class="progress-header">
-              <h4><i class="fas fa-trophy"></i> Mastery Progress</h4>
-              <span id="masteryPercent">0%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" id="masteryProgress"></div>
-            </div>
-            <div class="progress-stats">
-              <span id="attemptsCount">Attempts: 0</span>
-              <span id="timeSpent">Time: 0s</span>
-              <span id="accuracyRate">Accuracy: 0%</span>
-            </div>
-          </div>
-        </div>
-      </div>
+
+    <!-- Language Toggle Button -->
+    <div class="language-toggle">
+        <button id="languageToggle" class="accent-button" onclick="toggleLanguage()">
+            <i class="fas fa-language mr-2"></i> हिंदी (Hindi)
+        </button>
     </div>
-  </main>
-  
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-column">
-          <h4>Drone Math Master</h4>
-          <ul>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Our Mission</a></li>
-            <li><a href="#">Team</a></li>
-            <li><a href="#">Careers</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Resources</h4>
-          <ul>
-            <li><a href="#">Documentation</a></li>
-            <li><a href="#">Tutorials</a></li>
-            <li><a href="#">API Reference</a></li>
-            <li><a href="#">Research Papers</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Support</h4>
-          <ul>
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Feedback</a></li>
-            <li><a href="#">System Status</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-column">
-          <h4>Connect</h4>
-          <ul>
-            <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
-            <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-            <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
-            <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="copyright">
-        &copy; 2024 Drone Math Master. All rights reserved. | STEM Education Platform
-      </div>
-    </div>
-  </footer>
 
-  <script>
-    const canvas = document.getElementById("flightCanvas");
-    const ctx = canvas.getContext("2d");
-    let currentEquation = null;
-    let studentAttempts = 0;
-    let startTime = null;
-    let masteryLevel = 0;
-    let correctAnswers = 0;
-
-    // Flight path data with additional metadata
-    const flightPaths = {
-      1: {
-        points: [
-          [50, 350], [150, 300], [200, 200], [300, 250], [350, 350], 
-          [450, 300], [500, 200], [600, 250], [700, 350], [750, 300]
-        ],
-        date: "2024-07-23",
-        duration: "12:34",
-        altitude: "120m",
-        distance: "2.4km"
-      },
-      2: {
-        points: [
-          [50, 200], [150, 250], [250, 150], [350, 200], [450, 100],
-          [550, 150], [650, 200], [750, 150]
-        ],
-        date: "2024-07-21",
-        duration: "08:12",
-        altitude: "85m",
-        distance: "1.8km"
-      },
-      3: {
-        points: [
-          [50, 300], [200, 250], [350, 300], [500, 250], [650, 300], [750, 250]
-        ],
-        date: "2024-07-18",
-        duration: "06:45",
-        altitude: "95m",
-        distance: "1.5km"
-      }
-    };
-
-    // Enhanced equations by grade level with categories
-    const equationsByClass = {
-      6: {
-        "Geometry": ["Perimeter of Rectangle", "Area of Square", "Circumference of Circle"],
-        "Arithmetic": ["Simple Interest", "Average Speed", "Percentage Calculations"],
-        "Measurement": ["Unit Conversions", "Time Calculations"]
-      },
-      7: {
-        "Geometry": ["Pythagoras Theorem", "Area of Triangle", "Volume of Cube"],
-        "Algebra": ["Linear Equations", "Ratio and Proportion"],
-        "Statistics": ["Mean, Median, Mode", "Probability Basics"]
-      },
-      8: {
-        "Algebra": ["Algebraic Expressions", "Linear Equations", "Quadratic Equations"],
-        "Geometry": ["Volume of Cuboid", "Surface Area", "Angle Properties"],
-        "Financial": ["Compound Interest", "Profit/Loss"]
-      },
-      9: {
-        "Geometry": ["Quadratic Equations", "Heron's Formula", "Distance Formula"],
-        "Trigonometry": ["Trigonometric Ratios", "Pythagorean Theorem"],
-        "Coordinate": ["Slope of Line", "Distance Between Points"]
-      },
-      10: {
-        "Trigonometry": ["Trigonometric Identities", "Heights and Distances"],
-        "Algebra": ["Arithmetic Progression", "Quadratic Formula"],
-        "Geometry": ["Circle Theorems", "Constructions"]
-      },
-      11: {
-        "Calculus": ["Calculus Basics", "Derivatives", "Limits"],
-        "Algebra": ["Binomial Theorem", "Permutations"],
-        "Geometry": ["Straight Lines", "Conic Sections"]
-      },
-      12: {
-        "Calculus": ["Derivatives", "Integrals", "Differential Equations"],
-        "Vectors": ["Vector Algebra", "3D Geometry"],
-        "Probability": ["Probability Distributions", "Matrices"]
-      }
-    };
-
-    // Initialize the application
-    function init() {
-      drawFlightPath(1);
-      document.getElementById("flightSelect").addEventListener("change", function() {
-        drawFlightPath(this.value);
-      });
-      
-      // Set up responsive canvas
-      setupResponsiveCanvas();
-      window.addEventListener('resize', setupResponsiveCanvas);
-    }
-    
-    // Make canvas responsive
-    function setupResponsiveCanvas() {
-      const container = document.querySelector('.flight-visualization');
-      canvas.width = container.offsetWidth;
-      canvas.height = 400;
-      const currentFlight = document.getElementById("flightSelect").value;
-      if (currentFlight) drawFlightPath(currentFlight);
-    }
-
-    // Draw flight path with enhanced visualization
-    function drawFlightPath(flightId) {
-      const flight = flightPaths[flightId];
-      const path = flight.points;
-      
-      // Clear canvas
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Draw grid
-      drawGrid();
-      
-      // Draw flight path
-      ctx.strokeStyle = "#0066cc";
-      ctx.lineWidth = 3;
-      ctx.fillStyle = "rgba(0, 102, 204, 0.1)";
-      
-      // Draw path
-      ctx.beginPath();
-      ctx.moveTo(path[0][0], path[0][1]);
-      for (let i = 1; i < path.length; i++) {
-        ctx.lineTo(path[i][0], path[i][1]);
-      }
-      ctx.stroke();
-      
-      // Draw points with enhanced styling
-      for (let i = 0; i < path.length; i++) {
-        // Point halo
-        ctx.fillStyle = 'rgba(0, 102, 204, 0.2)';
-        ctx.beginPath();
-        ctx.arc(path[i][0], path[i][1], 8, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Point center
-        ctx.fillStyle = '#0066cc';
-        ctx.beginPath();
-        ctx.arc(path[i][0], path[i][1], 5, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Point label
-        ctx.fillStyle = '#2d3748';
-        ctx.font = 'bold 12px Roboto';
-        ctx.fillText(`P${i+1}`, path[i][0] + 12, path[i][1] - 12);
-        
-        // Coordinates
-        ctx.fillStyle = '#6c757d';
-        ctx.font = '10px Roboto';
-        ctx.fillText(`(${path[i][0]},${path[i][1]})`, path[i][0] + 12, path[i][1] + 5);
-      }
-      
-      // Segment and label the path
-      segmentAndLabelPath(path);
-      
-      // Update flight info
-      updateFlightInfo(flight);
-    }
-    
-    // Draw grid for the canvas
-    function drawGrid() {
-      ctx.strokeStyle = "#eee";
-      ctx.lineWidth = 1;
-      
-      // Vertical lines
-      for (let x = 0; x <= canvas.width; x += 50) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-        
-        // X-axis labels
-        if (x > 0 && x < canvas.width) {
-          ctx.fillStyle = '#6c757d';
-          ctx.font = '10px Roboto';
-          ctx.fillText(x, x - 10, canvas.height - 5);
-        }
-      }
-      
-      // Horizontal lines
-      for (let y = 0; y <= canvas.height; y += 50) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-        
-        // Y-axis labels (inverted because canvas Y increases downward)
-        if (y > 0 && y < canvas.height) {
-          ctx.fillStyle = '#6c757d';
-          ctx.font = '10px Roboto';
-          ctx.fillText(canvas.height - y, 5, y - 5);
-        }
-      }
-    }
-    
-    // Update flight information display
-    function updateFlightInfo(flight) {
-      // In a real app, this would update a flight info panel
-      console.log(`Displaying flight from ${flight.date} - Duration: ${flight.duration}, Altitude: ${flight.altitude}, Distance: ${flight.distance}`);
-    }
-
-    // Segment the path into geometric shapes and label them
-    function segmentAndLabelPath(path) {
-      // Clear previous segments
-      document.querySelectorAll('.segment, .segment-distance').forEach(el => el.remove());
-      
-      // Define segments with enhanced styling
-      const segments = [
-        {
-          type: "Right Triangle", 
-          points: [0, 1, 2], 
-          color: "#ff6b35",
-          properties: {
-            "Base": calculateDistance(path[0], path[2]),
-            "Height": calculateDistance(path[2], path[1]),
-            "Hypotenuse": calculateDistance(path[0], path[1])
-          }
-        },
-        {
-          type: "Quadrilateral", 
-          points: [2, 3, 4, 5], 
-          color: "#00a86b",
-          properties: {
-            "Side A": calculateDistance(path[2], path[3]),
-            "Side B": calculateDistance(path[3], path[4]),
-            "Side C": calculateDistance(path[4], path[5]),
-            "Side D": calculateDistance(path[5], path[2])
-          }
-        },
-        {
-          type: "Trapezoid", 
-          points: [5, 6, 7, 8], 
-          color: "#9c27b0",
-          properties: {
-            "Parallel Side 1": calculateDistance(path[5], path[8]),
-            "Parallel Side 2": calculateDistance(path[6], path[7]),
-            "Leg 1": calculateDistance(path[5], path[6]),
-            "Leg 2": calculateDistance(path[7], path[8])
-          }
-        },
-        {
-          type: "Line Segment", 
-          points: [8, 9], 
-          color: "#2196f3",
-          properties: {
-            "Length": calculateDistance(path[8], path[9])
-          }
-        }
-      ];
-      
-      segments.forEach(seg => {
-        // Draw segment with fill for closed shapes
-        ctx.strokeStyle = seg.color;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(path[seg.points[0]][0], path[seg.points[0]][1]);
-        
-        for (let i = 1; i < seg.points.length; i++) {
-          ctx.lineTo(path[seg.points[i]][0], path[seg.points[i]][1]);
-        }
-        
-        if (seg.points.length > 2) {
-          ctx.closePath();
-          ctx.fillStyle = `${seg.color}20`; // Add transparency
-          ctx.fill();
-        }
-        
-        ctx.stroke();
-        
-        // Calculate center for label
-        let xSum = 0, ySum = 0;
-        seg.points.forEach(idx => {
-          xSum += path[idx][0];
-          ySum += path[idx][1];
-        });
-        const centerX = xSum / seg.points.length;
-        const centerY = ySum / seg.points.length;
-        
-        // Create segment label
-        const label = document.createElement('div');
-        label.className = 'segment';
-        label.textContent = seg.type;
-        label.style.color = seg.color;
-        label.style.border = `1px solid ${seg.color}`;
-        label.style.left = `${centerX + canvas.getBoundingClientRect().left}px`;
-        label.style.top = `${centerY + canvas.getBoundingClientRect().top}px`;
-        document.body.appendChild(label);
-        
-        // Add distance labels for each side
-        if (seg.type === "Line Segment") {
-          const p1 = path[seg.points[0]];
-          const p2 = path[seg.points[1]];
-          
-          const distLabel = document.createElement('div');
-          distLabel.className = 'segment-distance';
-          distLabel.textContent = `${seg.properties.Length.toFixed(1)}px`;
-          distLabel.style.color = seg.color;
-          distLabel.style.left = `${(p1[0]+p2[0])/2 + canvas.getBoundingClientRect().left}px`;
-          distLabel.style.top = `${(p1[1]+p2[1])/2 + canvas.getBoundingClientRect().top}px`;
-          document.body.appendChild(distLabel);
-        } else {
-          // For shapes with multiple sides
-          seg.points.forEach((pointIdx, i) => {
-            const nextIdx = seg.points[(i + 1) % seg.points.length];
-            const p1 = path[pointIdx];
-            const p2 = path[nextIdx];
-            
-            const sideName = Object.keys(seg.properties)[i];
-            const distLabel = document.createElement('div');
-            distLabel.className = 'segment-distance';
-            distLabel.textContent = `${sideName}: ${seg.properties[sideName].toFixed(1)}px`;
-            distLabel.style.color = seg.color;
-            distLabel.style.left = `${(p1[0]+p2[0])/2 + canvas.getBoundingClientRect().left}px`;
-            distLabel.style.top = `${(p1[1]+p2[1])/2 + canvas.getBoundingClientRect().top}px`;
-            document.body.appendChild(distLabel);
-          });
-        }
-      });
-    }
-    
-    // Calculate distance between two points
-    function calculateDistance(p1, p2) {
-      return Math.sqrt(Math.pow(p2[0]-p1[0], 2) + Math.pow(p2[1]-p1[1], 2));
-    }
-
-    // Load equations for selected class with categories
-    function loadEquations() {
-      const classSelect = document.getElementById("classSelect");
-      const equationList = document.getElementById("equationList");
-      equationList.innerHTML = '';
-      
-      if (!classSelect.value) return;
-      
-      const gradeEquations = equationsByClass[classSelect.value];
-      
-      // Create category sections
-      for (const category in gradeEquations) {
-        const categoryHeader = document.createElement('h4');
-        categoryHeader.textContent = category;
-        categoryHeader.style.margin = '15px 0 5px 0';
-        categoryHeader.style.color = '#0066cc';
-        equationList.appendChild(categoryHeader);
-        
-        const categoryContainer = document.createElement('div');
-        categoryContainer.style.display = 'flex';
-        categoryContainer.style.flexWrap = 'wrap';
-        categoryContainer.style.gap = '10px';
-        categoryContainer.style.marginBottom = '15px';
-        
-        gradeEquations[category].forEach(eq => {
-          const btn = document.createElement("button");
-          btn.className = "equation-btn";
-          btn.innerText = eq;
-          btn.onclick = () => selectEquation(eq, category);
-          categoryContainer.appendChild(btn);
-        });
-        
-        equationList.appendChild(categoryContainer);
-      }
-    }
-
-    // When equation is selected
-    async function selectEquation(equation, category) {
-      // Update UI
-      document.querySelectorAll('.equation-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      event.target.classList.add('active');
-      
-      currentEquation = equation;
-      studentAttempts = 0;
-      correctAnswers = 0;
-      masteryLevel = 0;
-      startTime = new Date();
-      updateProgressUI();
-      
-      // Get equation info from AI
-      await getEquationInfo(equation, category);
-      
-      // Generate a problem
-      generateProblem(equation, category);
-      
-      // Show the feedback container (hidden initially)
-      document.getElementById("feedbackContainer").style.display = 'block';
-    }
-
-    // Get equation information from AI
-    async function getEquationInfo(equation, category) {
-      // Show loading state
-      document.getElementById("origin").innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading historical context...</p>';
-      document.getElementById("modernUse").innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading modern applications...</p>';
-      document.getElementById("droneImpact").innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading drone applications...</p>';
-      document.getElementById("coding").innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading code examples...</p>';
-      
-      const API_KEY = 'TS5JcIJJLlaCMq2S2xoYe2ELjStoqtbV'; // Replace with your actual key
-      const API_URL = 'https://api.mistral.ai/v1/chat/completions';
-      
-      const prompt = `As a math and drone expert, provide detailed information about "${equation}" (category: ${category}) in this exact format:
-      
-1. **Historical Context**: [Provide 1-2 paragraphs about the origin and historical development of this mathematical concept. Mention key mathematicians involved and the historical problems it solved.]
-
-2. **Modern Applications**: [Explain current uses of this concept in technology and engineering, with emphasis on drone technology. Provide specific examples.]
-
-3. **Drone Relevance**: [Detail exactly how this mathematical concept is used in drone navigation, flight planning, or performance optimization. Include real-world examples.]
-
-4. **Implementation**: [Show how to implement this concept in code (JavaScript preferred). Provide a clear example with explanation. Format code with Markdown.]`;
-      
-      try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            model: "mistral-medium",
-            messages: [
-              { role: "system", content: prompt }
-            ],
-            temperature: 0.5,
-            max_tokens: 2000
-          })
-        });
-
-        const data = await response.json();
-        const result = data.choices?.[0]?.message?.content || "No response from AI.";
-        
-        // Parse the response (this is simplified - you might need more robust parsing)
-        try {
-          const historicalMatch = result.match(/1\. \*\*Historical Context\*\*:([\s\S]*?)2\. \*\*Modern Applications\*\*/);
-          const modernMatch = result.match(/2\. \*\*Modern Applications\*\*:([\s\S]*?)3\. \*\*Drone Relevance\*\*/);
-          const droneMatch = result.match(/3\. \*\*Drone Relevance\*\*:([\s\S]*?)4\. \*\*Implementation\*\*/);
-          const codeMatch = result.match(/4\. \*\*Implementation\*\*:([\s\S]*)/);
-          
-          if (historicalMatch) document.getElementById("origin").innerHTML = `<p>${historicalMatch[1].trim()}</p>`;
-          if (modernMatch) document.getElementById("modernUse").innerHTML = `<p>${modernMatch[1].trim()}</p>`;
-          if (droneMatch) document.getElementById("droneImpact").innerHTML = `<p>${droneMatch[1].trim()}</p>`;
-          if (codeMatch) document.getElementById("coding").innerHTML = `<pre>${codeMatch[1].trim()}</pre>`;
-        } catch (e) {
-          console.error("Error parsing AI response:", e);
-          document.getElementById("origin").innerHTML = `<p>${result}</p>`;
-        }
-      } catch (error) {
-        console.error("Error calling AI API:", error);
-        document.getElementById("origin").innerHTML = '<p>Error loading information. Please try again.</p>';
-      }
-    }
-
-    // Generate a problem based on the equation
-    async function generateProblem(equation, category) {
-      // Show loading state
-      document.getElementById("problemArea").innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Generating problem...</p>';
-      
-      const API_KEY = 'TS5JcIJJLlaCMq2S2xoYe2ELjStoqtbV';
-      const API_URL = 'https://api.mistral.ai/v1/chat/completions';
-      
-      const flightSelect = document.getElementById("flightSelect").value;
-      const flightData = flightPaths[flightSelect];
-      
-      const prompt = `Create a realistic drone-related math problem for a high school student using ${equation} (category: ${category}). 
-      
-      Requirements:
-      - Base the problem on this flight path data: ${JSON.stringify(flightData.points)}
-      - The problem should require using ${equation} to solve
-      - Make it relevant to drone navigation, performance, or flight planning
-      - Include all necessary data points from the flight path
-      - Make the problem challenging but solvable for a high school student
-      - Format the problem clearly with all necessary information
-      
-      Provide just the problem statement, no solution or hints.`;
-      
-      try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            model: "mistral-medium",
-            messages: [
-              { role: "system", content: prompt }
-            ],
-            temperature: 0.7,
-            max_tokens: 500
-          })
-        });
-
-        const data = await response.json();
-        const problem = data.choices?.[0]?.message?.content || "Could not generate problem. Please try again.";
-        document.getElementById("problemArea").innerHTML = `
-          <h4>Problem Statement</h4>
-          <div class="problem-statement">
-            <p>${problem}</p>
-          </div>
-        `;
-        document.getElementById("feedbackArea").innerHTML = "";
-        document.getElementById("studentAnswer").value = "";
-        document.getElementById("feedbackBadge").className = "badge";
-        document.getElementById("feedbackBadge").textContent = "New Problem";
-      } catch (error) {
-        console.error("Error generating problem:", error);
-        document.getElementById("problemArea").innerHTML = '<p>Error generating problem. Please try again.</p>';
-      }
-    }
-
-    // Check student's answer
-    async function checkAnswer() {
-      const answer = document.getElementById("studentAnswer").value.trim();
-      if (!answer || !currentEquation) return;
-      
-      studentAttempts++;
-      const timeTaken = Math.floor((new Date() - startTime) / 1000); // in seconds
-      
-      // Show checking state
-      document.getElementById("feedbackArea").innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Evaluating your answer...</p>';
-      document.getElementById("feedbackBadge").className = "badge";
-      document.getElementById("feedbackBadge").textContent = "Checking";
-      
-      const API_KEY = 'TS5JcIJJLlaCMq2S2xoYe2ELjStoqtbV';
-      const API_URL = 'https://api.mistral.ai/v1/chat/completions';
-      
-      const prompt = `Evaluate this student answer for the math problem about "${currentEquation}":
-      
-      Student Answer: ${answer}
-      
-      Provide detailed feedback considering:
-      1. Correctness: Is the answer mathematically correct? If not, what's the error?
-      2. Explanation: Provide a step-by-step solution with clear reasoning
-      3. Improvement: Suggest how the student could improve their approach
-      4. Mastery: Estimate mastery level (0-100) based on answer quality
-      
-      Format your response exactly like this:
-      
-      Correct: [Yes/No]
-      Feedback: [Your detailed feedback here]
-      Mastery: [0-100]`;
-      
-      try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`
-          },
-          body: JSON.stringify({
-            model: "mistral-medium",
-            messages: [
-              { role: "system", content: prompt }
-            ],
-            temperature: 0.3,
-            max_tokens: 1000
-          })
-        });
-
-        const data = await response.json();
-        const result = data.choices?.[0]?.message?.content || "Could not evaluate answer.";
-        
-        // Parse the response
-        const isCorrect = result.includes("Correct: Yes");
-        let feedback = "Could not parse feedback.";
-        let newMastery = masteryLevel;
-        
-        if (result.includes("Feedback:")) {
-          feedback = result.split("Feedback:")[1].split("Mastery:")[0].trim();
-        } else {
-          feedback = result;
-        }
-        
-        if (result.includes("Mastery:")) {
-          const masteryText = result.split("Mastery:")[1].trim();
-          const masteryMatch = masteryText.match(/\d+/);
-          newMastery = masteryMatch ? parseInt(masteryMatch[0]) : masteryLevel;
-        }
-        
-        if (isCorrect) correctAnswers++;
-        masteryLevel = newMastery;
-        
-        // Update UI
-        updateProgressUI();
-        
-        document.getElementById("feedbackArea").innerHTML = `
-          <div class="${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}">
-            <h4>${isCorrect ? '✅ Correct Answer!' : '❌ Needs Improvement'}</h4>
-            <p>${feedback}</p>
-            ${!isCorrect ? `
-              <button class="btn btn-primary" onclick="generateProblem(currentEquation)">
-                <i class="fas fa-redo"></i> Try Another Problem
-              </button>
-            ` : ''}
-          </div>
-        `;
-        
-        document.getElementById("feedbackBadge").className = isCorrect ? "badge badge-success" : "badge badge-danger";
-        document.getElementById("feedbackBadge").textContent = isCorrect ? "Correct" : "Incorrect";
-        
-        // Show coding implementation if mastery is high
-        if (masteryLevel >= 80) {
-          document.getElementById("feedbackArea").innerHTML += `
-            <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 5px;">
-              <h4><i class="fas fa-code"></i> Coding Implementation</h4>
-              <p>Now that you've mastered the concept, here's how to implement it in code:</p>
-              ${document.getElementById("coding").innerHTML}
-              <button class="btn btn-primary" style="margin-top: 10px;">
-                <i class="fas fa-laptop-code"></i> Try in Code Editor
-              </button>
+    <!-- Header -->
+    <header class="py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-bold">
+                <a href="/">
+                    <svg class="logo-svg" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Cosmic orb with fiery glow -->
+                        <defs>
+                            <radialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.8" />
+                                <stop offset="70%" style="stop-color:#FF9500;stop-opacity:0.5" />
+                                <stop offset="100%" style="stop-color:#0A0A0A;stop-opacity:0" />
+                            </radialGradient>
+                            <linearGradient id="textGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#A855F7" />
+                                <stop offset="100%" style="stop-color:#3B82F6" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Swirling orbit paths -->
+                        <path d="M 30 30 A 20 20 0 0 1 50 50 A 20 20 0 0 1 30 30" fill="none" stroke="url(#orbGlow)" stroke-width="2" opacity="0.6">
+                            <animateTransform attributeName="transform" type="rotate" from="0 30 30" to="360 30 30" dur="10s" repeatCount="indefinite" />
+                        </path>
+                        <path d="M 30 30 A 25 25 0 0 0 55 55 A 25 25 0 0 0 30 30" fill="none" stroke="url(#orbGlow)" stroke-width="1.5" opacity="0.5">
+                            <animateTransform attributeName="transform" type="rotate" from="360 30 30" to="0 30 30" dur="12s" repeatCount="indefinite" />
+                        </path>
+                        <!-- Central orb -->
+                        <circle cx="30" cy="30" r="15" fill="url(#orbGlow)" />
+                        <!-- ENIGMA STEM ENGINE text -->
+                        <text x="60" y="40" font-family="'Montserrat', sans-serif" font-size="20" font-weight="bold" fill="url(#textGlow)">ENIGMA STEM ENGINE</text>
+                    </svg>
+                </a>
             </div>
-          `;
+            <ul class="flex space-x-6">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#competitions" class="nav-link">Competitions</a></li>
+                <li><a href="#pilot" class="nav-link">Piloting</a></li>
+                <li><a href="#certificates" class="nav-link">Certificates</a></li>
+                <li><a href="#connect" class="nav-link">Connect Drone</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Home Section -->
+        <section id="home" class="content-section">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Sidebar -->
+                <aside class="sidebar lg:col-span-1">
+                    <div class="sidebar-section">
+                        <h3 class="text-lg font-semibold mb-4 text-white border-b border-gray-700 pb-2">Navigation</h3>
+                        <ul class="sidebar-menu">
+                            <li><a href="#home" class="active flex items-center py-2"><i class="fas fa-home mr-3"></i> Home</a></li>
+                            <li><a href="#competitions" class="flex items-center py-2"><i class="fas fa-trophy mr-3"></i> Competitions</a></li>
+                            <li><a href="#pilot" class="flex items-center py-2"><i class="fas fa-drone mr-3"></i> Piloting</a></li>
+                            <li><a href="#certificates" class="flex items-center py-2"><i class="fas fa-certificate mr-3"></i> Certificates</a></li>
+                            <li><a href="#connect" class="flex items-center py-2"><i class="fas fa-link mr-3"></i> Connect Drone</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="sidebar-section mt-8">
+                        <h3 class="text-lg font-semibold mb-4 text-white border-b border-gray-700 pb-2">Recent Flights</h3>
+                        <ul class="sidebar-menu">
+                            <li><a href="#" class="flex items-center py-2"><i class="fas fa-map-marked-alt mr-3"></i> July 23, 2024</a></li>
+                            <li><a href="#" class="flex items-center py-2"><i class="fas fa-map-marked-alt mr-3"></i> DR-2456</a></li>
+                            <li><a href="#" class="flex items-center py-2"><i class="fas fa-map-marked-alt mr-3"></i> DR-2455</a></li>
+                        </ul>
+                    </div>
+                </aside>
+                
+                <!-- Main Content Area -->
+                <div class="lg:col-span-3">
+                    <div class="card mb-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold section-heading"><i class="fas fa-map-marked-alt mr-2"></i> Flight Path Analysis</h2>
+                            <div class="flex space-x-3">
+                                <button class="accent-button"><i class="fas fa-download mr-2"></i> Export Data</button>
+                                <button class="accent-button"><i class="fas fa-share-alt mr-2"></i> Share</button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="control-group">
+                                <label for="classSelect" class="block text-sm font-medium text-gray-300 mb-2"><i class="fas fa-graduation-cap mr-2"></i> Grade Level</label>
+                                <select id="classSelect" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white">
+                                    <option value="">-- Select Grade --</option>
+                                    <option value="6">Grade 6</option>
+                                    <option value="7">Grade 7</option>
+                                    <option value="8">Grade 8</option>
+                                    <option value="9">Grade 9</option>
+                                    <option value="10">Grade 10</option>
+                                    <option value="11">Grade 11</option>
+                                    <option value="12">Grade 12</option>
+                                </select>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label for="flightSelect" class="block text-sm font-medium text-gray-300 mb-2"><i class="fas fa-drone mr-2"></i> Flight Session</label>
+                                <select id="flightSelect" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white">
+                                    <option value="1">Last Flight (July 23, 2024)</option>
+                                    <option value="2">Flight #DR-2456</option>
+                                    <option value="3">Flight #DR-2455</option>
+                                </select>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label for="analysisType" class="block text-sm font-medium text-gray-300 mb-2"><i class="fas fa-chart-pie mr-2"></i> Analysis Type</label>
+                                <select id="analysisType" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white">
+                                    <option value="basic">Basic Geometry</option>
+                                    <option value="advanced">Advanced Calculations</option>
+                                    <option value="performance">Performance Metrics</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flight-visualization mb-8">
+                            <canvas id="flightCanvas" width="800" height="400"></canvas>
+                        </div>
+                        
+                        <div class="equation-list mb-8" id="equationList"></div>
+                        
+                        <!-- Vertical Info Blocks -->
+                        <div class="info-vertical mb-8">
+                            <div class="info-card">
+                                <h4><i class="fas fa-history mr-2"></i> Historical Context</h4>
+                                <p id="origin">Select an equation to learn about its historical development and significance in mathematics.</p>
+                            </div>
+                            
+                            <div class="info-card">
+                                <h4><i class="fas fa-rocket mr-2"></i> Modern Applications</h4>
+                                <p id="modernUse">Discover how this mathematical concept is applied in modern technology, especially in drone aviation.</p>
+                            </div>
+                            
+                            <div class="info-card">
+                                <h4><i class="fas fa-drone mr-2"></i> Drone Technology</h4>
+                                <p id="droneImpact">Learn how this equation impacts drone flight paths, navigation, and performance optimization.</p>
+                            </div>
+                            
+                            <div class="info-card">
+                                <h4><i class="fas fa-code mr-2"></i> Programming</h4>
+                                <p id="coding">See practical examples of how to implement this mathematical concept in programming code.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="learning-section">
+                        <div class="problem-container mb-6">
+                            <h3><i class="fas fa-puzzle-piece mr-2"></i> Learning Challenge</h3>
+                            <div class="problem-content" id="problemArea">
+                                <p>Select an equation from above to receive a customized problem based on the current flight path analysis.</p>
+                            </div>
+                            
+                            <div class="answer-input mt-4">
+                                <textarea id="studentAnswer" placeholder="Type your solution here... Be sure to show your work and explain your reasoning."></textarea>
+                                <button class="accent-button mt-4" onclick="checkAnswer()"><i class="fas fa-paper-plane mr-2"></i> Submit Answer</button>
+                                <button class="accent-button mt-4 ml-3" onclick="simplifyAnswer()" style="background: var(--accent);">
+                                    <i class="fas fa-comment-alt mr-2"></i> Simplify Explanation
+                                </button>
+                                <button class="accent-button mt-4 ml-3" onclick="translateToHindi()" style="background: #FF9500;">
+                                    <i class="fas fa-language mr-2"></i> Hindi Explanation
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="feedback-container mb-6" id="feedbackContainer" style="display: none;">
+                            <div class="flex items-center mb-4">
+                                <h3 class="text-xl font-semibold text-white"><i class="fas fa-comment-dots mr-2"></i> Feedback</h3>
+                                <span class="badge bg-purple-500 text-white px-3 py-1 rounded-full ml-3 text-sm" id="feedbackBadge">New</span>
+                            </div>
+                            <div class="feedback-content" id="feedbackArea"></div>
+                        </div>
+                        
+                        <div class="progress-container bg-gray-800 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="text-sm font-medium text-gray-300"><i class="fas fa-trophy mr-2"></i> Mastery Progress</h4>
+                                <span id="masteryPercent" class="text-sm font-bold text-purple-400">0%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="masteryProgress"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400 mt-2">
+                                <span id="attemptsCount">Attempts: 0</span>
+                                <span id="timeSpent">Time: 0s</span>
+                                <span id="accuracyRate">Accuracy: 0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Competitions Section -->
+        <section id="competitions" class="content-section py-8" style="display: none;">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <div class="lg:col-span-3">
+                    <h2 class="text-2xl font-bold section-heading mb-6"><i class="fas fa-trophy mr-2"></i> Current Competitions</h2>
+                    
+                    <div id="competitionsList">
+                        <!-- Competitions will be loaded here by AI -->
+                        <div class="competition-card">
+                            <h4><i class="fas fa-spinner fa-spin mr-2"></i> Loading Competitions...</h4>
+                            <p>Please wait while we load the latest competitions</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-1">
+                    <div class="sidebar">
+                        <h3 class="text-lg font-semibold mb-4 text-white border-b border-gray-700 pb-2">Competition Updates</h3>
+                        <div id="competitionUpdates">
+                            <p><i class="fas fa-spinner fa-spin mr-2"></i> Loading updates...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Piloting Section -->
+        <section id="pilot" class="content-section py-8" style="display: none;">
+            <h2 class="text-2xl font-bold section-heading mb-6"><i class="fas fa-drone mr-2"></i> Drone Piloting Controls</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="card">
+                        <h3 class="text-xl font-semibold mb-4"><i class="fas fa-gamepad mr-2"></i> Manual Controls</h3>
+                        
+                        <div class="drone-controls">
+                            <div class="control-btn" onclick="sendDroneCommand('takeoff')">
+                                <i class="fas fa-rocket"></i>
+                                <span>Takeoff</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('land')">
+                                <i class="fas fa-landmark"></i>
+                                <span>Land</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('emergency')">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Emergency Stop</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('forward')">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Forward</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('backward')">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>Backward</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('left')">
+                                <i class="fas fa-arrow-left"></i>
+                                <span>Left</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('right')">
+                                <i class="fas fa-arrow-right"></i>
+                                <span>Right</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('up')">
+                                <i class="fas fa-arrow-alt-circle-up"></i>
+                                <span>Up</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('down')">
+                                <i class="fas fa-arrow-alt-circle-down"></i>
+                                <span>Down</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('rotate_left')">
+                                <i class="fas fa-undo"></i>
+                                <span>Rotate Left</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('rotate_right')">
+                                <i class="fas fa-redo"></i>
+                                <span>Rotate Right</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('hover')">
+                                <i class="fas fa-pause"></i>
+                                <span>Hover</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-1">
+                    <div class="card">
+                        <h3 class="text-xl font-semibold mb-4"><i class="fas fa-robot mr-2"></i> AI Assistant</h3>
+                        <div class="problem-content mb-4">
+                            <p>Ask the AI for help with piloting or flight planning:</p>
+                        </div>
+                        <textarea id="pilotQuestion" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white mb-4" placeholder="Type your piloting question here..."></textarea>
+                        <button class="accent-button w-full" onclick="askPilotQuestion()">
+                            <i class="fas fa-question-circle mr-2"></i> Ask AI
+                        </button>
+                        <div id="pilotAnswer" class="mt-4 p-4 bg-gray-800 rounded-lg" style="display: none;">
+                            <h4 class="text-lg font-semibold mb-2">AI Response:</h4>
+                            <p id="pilotAnswerText"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certificates Section -->
+        <section id="certificates" class="content-section py-8" style="display: none;">
+            <h2 class="text-2xl font-bold section-heading mb-6"><i class="fas fa-certificate mr-2"></i> My Certificates</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="info-card">
+                    <h4><i class="fas fa-certificate mr-2"></i> Drone Math Basics</h4>
+                    <p>Completed on: July 15, 2024</p>
+                    <button class="accent-button mt-3" onclick="viewCertificate('Drone Math Basics')">
+                        <i class="fas fa-eye mr-2"></i> View Certificate
+                    </button>
+                </div>
+                
+                <div class="info-card">
+                    <h4><i class="fas fa-certificate mr-2"></i> Advanced Flight Calculations</h4>
+                    <p>Completed on: June 28, 2024</p>
+                    <button class="accent-button mt-3" onclick="viewCertificate('Advanced Flight Calculations')">
+                        <i class="fas fa-eye mr-2"></i> View Certificate
+                    </button>
+                </div>
+                
+                <div class="info-card">
+                    <h4><i class="fas fa-certificate mr-2"></i> Drone Programming</h4>
+                    <p>Completed on: June 10, 2024</p>
+                    <button class="accent-button mt-3" onclick="viewCertificate('Drone Programming')">
+                        <i class="fas fa-eye mr-2"></i> View Certificate
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Connect Drone Section -->
+        <section id="connect" class="content-section py-8" style="display: none;">
+            <h2 class="text-2xl font-bold section-heading mb-6"><i class="fas fa-link mr-2"></i> Connect Your Drone</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="connect-form">
+                    <h3 class="text-xl font-semibold mb-4">Drone Connection</h3>
+                    <div class="mb-4">
+                        <label for="droneIp" class="block text-sm font-medium text-gray-300 mb-2">Drone IP Address</label>
+                        <input type="text" id="droneIp" placeholder="Enter drone IP address (e.g., 192.168.1.1)" class="w-full">
+                    </div>
+                    <div class="mb-4">
+                        <label for="dronePort" class="block text-sm font-medium text-gray-300 mb-2">Port</label>
+                        <input type="text" id="dronePort" placeholder="Enter port number (default: 8888)" class="w-full" value="8888">
+                    </div>
+                    <div class="mb-4">
+                        <label for="dronePassword" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                        <input type="password" id="dronePassword" placeholder="Enter drone password" class="w-full">
+                    </div>
+                    <button class="accent-button w-full" onclick="connectToDrone()">
+                        <i class="fas fa-plug mr-2"></i> Connect to Drone
+                    </button>
+                    <div id="connectionStatus" class="mt-4 p-3 rounded-lg text-center hidden">
+                        <p id="statusText"></p>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="info-card h-full">
+                        <h4><i class="fas fa-info-circle mr-2"></i> Connection Instructions</h4>
+                        <p class="mb-3">1. Ensure your drone is powered on and in pairing mode</p>
+                        <p class="mb-3">2. Connect your device to the drone's WiFi network</p>
+                        <p class="mb-3">3. Enter the IP address and password provided with your drone</p>
+                        <p class="mb-3">4. Click "Connect to Drone" to establish connection</p>
+                        <p class="text-sm text-gray-400 mt-4">Note: For security reasons, always change the default password after first connection.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Global variables
+        let currentLanguage = 'english';
+        let currentGradeLevel = '';
+        let droneConnected = false;
+        let masteryProgress = 0;
+        let attemptsCount = 0;
+        let startTime = new Date();
+        let correctAnswers = 0;
+        let selectedEquation = '';
+        const MISTRAL_API_KEY = 'x4FTLzA5S3mjqJX42QYspPDuOfrLGpTJ';
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up navigation
+            setupNavigation();
+            
+            // Initialize canvas animations
+            initDroneCanvas();
+            initFlightCanvas();
+            
+            // Load equations based on default grade level
+            document.getElementById('classSelect').addEventListener('change', function() {
+                currentGradeLevel = this.value;
+                loadEquations(currentGradeLevel);
+            });
+            
+            // Set default grade level to 8
+            document.getElementById('classSelect').value = '8';
+            currentGradeLevel = '8';
+            loadEquations('8');
+            
+            // Start timer for time spent calculation
+            setInterval(updateTimeSpent, 1000);
+        });
+        
+        // Navigation setup
+        function setupNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link, .sidebar-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Hide all sections
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show selected section
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).style.display = 'block';
+                    
+                    // Update active link
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Special handling for competitions section
+                    if (targetId === 'competitions') {
+                        loadCompetitions();
+                    }
+                });
+            });
         }
-      } catch (error) {
-        console.error("Error evaluating answer:", error);
-        document.getElementById("feedbackArea").innerHTML = '<p>Error evaluating answer. Please try again.</p>';
-        document.getElementById("feedbackBadge").className = "badge badge-warning";
-        document.getElementById("feedbackBadge").textContent = "Error";
-      }
-    }
-
-    // Update all progress indicators
-    function updateProgressUI() {
-      // Mastery progress bar
-      document.getElementById("masteryProgress").style.width = `${masteryLevel}%`;
-      document.getElementById("masteryPercent").textContent = `${masteryLevel}%`;
-      
-      // Attempts count
-      document.getElementById("attemptsCount").textContent = `Attempts: ${studentAttempts}`;
-      
-      // Time spent
-      const timeSpent = startTime ? Math.floor((new Date() - startTime) / 1000) : 0;
-      document.getElementById("timeSpent").textContent = `Time: ${timeSpent}s`;
-      
-      // Accuracy rate
-      const accuracy = studentAttempts > 0 ? Math.round((correctAnswers / studentAttempts) * 100) : 0;
-      document.getElementById("accuracyRate").textContent = `Accuracy: ${accuracy}%`;
-    }
-
-    // Initialize the app
-    window.onload = init;
-  </script>
+        
+        // Initialize drone background canvas
+        function initDroneCanvas() {
+            const canvas = document.getElementById('droneCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas to full window size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            // Drone particles
+            const drones = [];
+            const droneCount = 15;
+            
+            // Create drones
+            for (let i = 0; i < droneCount; i++) {
+                drones.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 3 + 2,
+                    speedX: Math.random() * 2 - 1,
+                    speedY: Math.random() * 2 - 1,
+                    color: `hsl(${Math.random() * 60 + 200}, 80%, 60%)`,
+                    trail: []
+                });
+            }
+            
+            // Animation loop
+            function animate() {
+                ctx.fillStyle = 'rgba(10, 10, 10, 0.2)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                drones.forEach(drone => {
+                    // Update position
+                    drone.x += drone.speedX;
+                    drone.y += drone.speedY;
+                    
+                    // Bounce off edges
+                    if (drone.x < 0 || drone.x > canvas.width) drone.speedX *= -1;
+                    if (drone.y < 0 || drone.y > canvas.height) drone.speedY *= -1;
+                    
+                    // Add current position to trail
+                    drone.trail.push({x: drone.x, y: drone.y});
+                    if (drone.trail.length > 20) drone.trail.shift();
+                    
+                    // Draw trail
+                    ctx.strokeStyle = drone.color;
+                    ctx.lineWidth = drone.size / 2;
+                    ctx.beginPath();
+                    ctx.moveTo(drone.trail[0].x, drone.trail[0].y);
+                    for (let i = 1; i < drone.trail.length; i++) {
+                        ctx.lineTo(drone.trail[i].x, drone.trail[i].y);
+                    }
+                    ctx.stroke();
+                    
+                    // Draw drone
+                    ctx.fillStyle = drone.color;
+                    ctx.beginPath();
+                    ctx.arc(drone.x, drone.y, drone.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+        
+        // Initialize flight path canvas
+        function initFlightCanvas() {
+            const canvas = document.getElementById('flightCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas dimensions
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            // Flight path data
+            const flightPath = generateFlightPath();
+            
+            // Draw flight path
+            function drawFlightPath() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw grid
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.lineWidth = 1;
+                
+                // Vertical grid lines
+                for (let x = 0; x < canvas.width; x += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+                
+                // Horizontal grid lines
+                for (let y = 0; y < canvas.height; y += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(canvas.width, y);
+                    ctx.stroke();
+                }
+                
+                // Draw flight path
+                ctx.strokeStyle = '#3B82F6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(flightPath[0].x, flightPath[0].y);
+                
+                for (let i = 1; i < flightPath.length; i++) {
+                    ctx.lineTo(flightPath[i].x, flightPath[i].y);
+                }
+                
+                ctx.stroke();
+                
+                // Draw points of interest
+                flightPath.forEach((point, index) => {
+                    if (point.important) {
+                        ctx.fillStyle = '#A855F7';
+                        ctx.beginPath();
+                        ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
+                        ctx.fill();
+                        
+                        // Draw point label
+                        ctx.fillStyle = 'white';
+                        ctx.font = '12px Montserrat';
+                        ctx.fillText(point.label, point.x + 10, point.y - 10);
+                    }
+                });
+                
+                // Draw start and end points
+                // Start point
+                ctx.fillStyle = '#10B981';
+                ctx.beginPath();
+                ctx.arc(flightPath[0].x, flightPath[0].y, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 12px Montserrat';
+                ctx.fillText('Start', flightPath[0].x + 10, flightPath[0].y + 5);
+                
+                // End point
+                ctx.fillStyle = '#EF4444';
+                ctx.beginPath();
+                ctx.arc(flightPath[flightPath.length - 1].x, flightPath[flightPath.length - 1].y, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 12px Montserrat';
+                ctx.fillText('End', flightPath[flightPath.length - 1].x + 10, flightPath[flightPath.length - 1].y + 5);
+            }
+            
+            // Generate a sample flight path
+            function generateFlightPath() {
+                const path = [];
+                const steps = 20;
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const radius = Math.min(canvas.width, canvas.height) * 0.4;
+                
+                for (let i = 0; i <= steps; i++) {
+                    const angle = (i / steps) * Math.PI * 2;
+                    const x = centerX + Math.cos(angle) * radius;
+                    const y = centerY + Math.sin(angle) * radius * 0.6;
+                    
+                    path.push({
+                        x: x,
+                        y: y,
+                        important: i % 5 === 0,
+                        label: i % 5 === 0 ? `P${i/5 + 1}` : ''
+                    });
+                }
+                
+                return path;
+            }
+            
+            drawFlightPath();
+        }
+        
+        // Load equations based on grade level
+        function loadEquations(gradeLevel) {
+            const equationList = document.getElementById('equationList');
+            equationList.innerHTML = '';
+            
+            // Sample equations by grade level
+            const equations = {
+                '6': [
+                    { name: 'Distance Formula', formula: 'd = √((x₂ - x₁)² + (y₂ - y₁)²)' },
+                    { name: 'Speed Calculation', formula: 'speed = distance / time' },
+                    { name: 'Area of Rectangle', formula: 'A = length × width' }
+                ],
+                '7': [
+                    { name: 'Pythagorean Theorem', formula: 'a² + b² = c²' },
+                    { name: 'Slope Formula', formula: 'm = (y₂ - y₁)/(x₂ - x₁)' },
+                    { name: 'Perimeter of Polygon', formula: 'P = sum of all sides' }
+                ],
+                '8': [
+                    { name: 'Linear Equation', formula: 'y = mx + b' },
+                    { name: 'Quadratic Formula', formula: 'x = [-b ± √(b² - 4ac)] / 2a' },
+                    { name: 'Volume of Cylinder', formula: 'V = πr²h' }
+                ],
+                '9': [
+                    { name: 'Trigonometric Ratios', formula: 'sinθ = opp/hyp, cosθ = adj/hyp, tanθ = opp/adj' },
+                    { name: 'Kinematic Equation', formula: 'd = v₀t + ½at²' },
+                    { name: 'Exponential Growth', formula: 'A = A₀(1 + r)^t' }
+                ],
+                '10': [
+                    { name: 'Law of Cosines', formula: 'c² = a² + b² - 2ab cos(C)' },
+                    { name: 'Vector Magnitude', formula: '|v| = √(x² + y² + z²)' },
+                    { name: 'Logarithmic Equation', formula: 'logₐb = c ⇔ a^c = b' }
+                ],
+                '11': [
+                    { name: 'Derivative Power Rule', formula: 'd/dx(x^n) = nx^(n-1)' },
+                    { name: 'Dot Product', formula: 'A·B = |A||B|cosθ' },
+                    { name: 'Parametric Equations', formula: 'x = x₀ + v₀t, y = y₀ + v₀t - ½gt²' }
+                ],
+                '12': [
+                    { name: 'Integral Calculus', formula: '∫f(x)dx = F(x) + C' },
+                    { name: 'Cross Product', formula: 'A×B = |A||B|sinθ n̂' },
+                    { name: 'Matrix Transformation', formula: 'x\' = a·x + b·y, y\' = c·x + d·y' }
+                ]
+            };
+            
+            // Display equations
+            equations[gradeLevel].forEach(eq => {
+                const button = document.createElement('button');
+                button.className = 'equation-btn';
+                button.innerHTML = `<strong>${eq.name}</strong>: ${eq.formula}`;
+                button.onclick = function() {
+                    selectEquation(eq.name, eq.formula);
+                    
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.equation-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                };
+                equationList.appendChild(button);
+            });
+        }
+        
+        // Handle equation selection
+        function selectEquation(name, formula) {
+            selectedEquation = name;
+            
+            // Update information cards
+            document.getElementById('origin').textContent = getHistoricalContext(name);
+            document.getElementById('modernUse').textContent = getModernApplications(name);
+            document.getElementById('droneImpact').textContent = getDroneImpact(name);
+            document.getElementById('coding').textContent = getCodingExample(name);
+            
+            // Generate a problem
+            generateProblem(name, formula);
+        }
+        
+        // Get historical context for equation
+        function getHistoricalContext(equationName) {
+            const contexts = {
+                'Distance Formula': 'The distance formula was first used by ancient Greek mathematicians like Euclid and later formalized by René Descartes in the 17th century as part of coordinate geometry.',
+                'Pythagorean Theorem': 'Named after the Greek mathematician Pythagoras, though it was known to Babylonian and Indian mathematicians centuries earlier. It\'s one of the most fundamental theorems in geometry.',
+                'Quadratic Formula': 'The quadratic formula for solving quadratic equations was first discovered by ancient Babylonian mathematicians around 2000 BCE, with later contributions from Greek, Indian, and Persian mathematicians.',
+                'Trigonometric Ratios': 'Trigonometry was developed by ancient Greek astronomers to study the stars, with key contributions from Hipparchus and Ptolemy. The modern sine, cosine, and tangent functions were formalized in the Middle Ages.'
+            };
+            
+            return contexts[equationName] || `The historical development of ${equationName} is fascinating, involving contributions from mathematicians across different cultures and time periods.`;
+        }
+        
+        // Get modern applications for equation
+        function getModernApplications(equationName) {
+            const applications = {
+                'Distance Formula': 'Used in GPS technology, computer graphics, and robotics for calculating distances between points. Essential for navigation systems in drones and autonomous vehicles.',
+                'Pythagorean Theorem': 'Applied in construction, computer graphics, and physics. Used in drone technology for calculating diagonal distances and ensuring proper sensor alignment.',
+                'Quadratic Formula': 'Critical in engineering, physics, and economics for solving optimization problems. Used in drone flight path calculations to determine optimal trajectories.',
+                'Trigonometric Ratios': 'Essential in fields like astronomy, physics, and engineering. Used in drone stabilization systems and for calculating angles in aerial photography.'
+            };
+            
+            return applications[equationName] || `${equationName} has numerous applications in modern technology, including drone navigation, computer graphics, and engineering design.`;
+        }
+        
+        // Get drone impact for equation
+        function getDroneImpact(equationName) {
+            const impacts = {
+                'Distance Formula': 'Drones use the distance formula to calculate how far they\'ve traveled, determine battery usage, and plan efficient flight paths between waypoints.',
+                'Pythagorean Theorem': 'Helps drones calculate diagonal distances when navigating 3D space, important for obstacle avoidance and precise positioning.',
+                'Quadratic Formula': 'Used in drone flight controllers to calculate optimal acceleration and deceleration curves for smooth, efficient movement.',
+                'Trigonometric Ratios': 'Critical for drone stabilization, camera gimbal control, and calculating angles for aerial photography and mapping.'
+            };
+            
+            return impacts[equationName] || `${equationName} plays a crucial role in drone technology, affecting flight stability, navigation accuracy, and operational efficiency.`;
+        }
+        
+        // Get coding example for equation
+        function getCodingExample(equationName) {
+            const examples = {
+                'Distance Formula': 'In Python:\nimport math\ndef distance(x1, y1, x2, y2):\n    return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)',
+                'Pythagorean Theorem': 'In JavaScript:\nfunction pythagorean(a, b) {\n    return Math.sqrt(a*a + b*b);\n}',
+                'Quadratic Formula': 'In C++:\n#include <cmath>\nvoid solveQuadratic(double a, double b, double c) {\n    double discriminant = b*b - 4*a*c;\n    if (discriminant >= 0) {\n        double root1 = (-b + sqrt(discriminant)) / (2*a);\n        double root2 = (-b - sqrt(discriminant)) / (2*a);\n    }\n}',
+                'Trigonometric Ratios': 'In Python:\nimport math\nangle = 45  # degrees\nradians = math.radians(angle)\nsin_val = math.sin(radians)\ncos_val = math.cos(radians)\ntan_val = math.tan(radians)'
+            };
+            
+            return examples[equationName] || `Programming implementation of ${equationName} varies by language but typically involves basic arithmetic operations and sometimes specialized math functions.`;
+        }
+        
+        // Generate a problem based on the selected equation
+        function generateProblem(equationName, formula) {
+            const problemArea = document.getElementById('problemArea');
+            let problemText = '';
+            let solutionHint = '';
+            
+            // Generate different problems based on equation
+            switch(equationName) {
+                case 'Distance Formula':
+                    const x1 = Math.floor(Math.random() * 20) - 10;
+                    const y1 = Math.floor(Math.random() * 20) - 10;
+                    const x2 = Math.floor(Math.random() * 20) - 10;
+                    const y2 = Math.floor(Math.random() * 20) - 10;
+                    problemText = `A drone flies from point A (${x1}, ${y1}) to point B (${x2}, ${y2}) on a coordinate grid. Calculate the straight-line distance the drone traveled using the distance formula.`;
+                    solutionHint = `Remember the distance formula: ${formula}. Plug in the coordinates (x₁, y₁) = (${x1}, ${y1}) and (x₂, y₂) = (${x2}, ${y2}).`;
+                    break;
+                    
+                case 'Pythagorean Theorem':
+                    const a = Math.floor(Math.random() * 10) + 3;
+                    const b = Math.floor(Math.random() * 10) + 3;
+                    problemText = `A drone's camera has a field of view that forms a right triangle. If the horizontal view is ${a} meters and the vertical view is ${b} meters, how far is the diagonal (hypotenuse) view?`;
+                    solutionHint = `Use the Pythagorean theorem (${formula}) where a = ${a} and b = ${b}. Solve for c.`;
+                    break;
+                    
+                case 'Quadratic Formula':
+                    const aq = Math.floor(Math.random() * 3) + 1;
+                    const bq = Math.floor(Math.random() * 10) - 5;
+                    const cq = Math.floor(Math.random() * 10) - 5;
+                    problemText = `A drone's altitude follows the equation h(t) = ${aq}t² + ${bq}t + ${cq}, where t is time in seconds. At what time(s) will the drone be at ground level (h = 0)?`;
+                    solutionHint = `Set the equation to 0: ${aq}t² + ${bq}t + ${cq} = 0 and solve for t using the quadratic formula (${formula}).`;
+                    break;
+                    
+                case 'Trigonometric Ratios':
+                    const angle = Math.floor(Math.random() * 30) + 30;
+                    const distance = Math.floor(Math.random() * 100) + 50;
+                    problemText = `A drone is flying at an altitude of ${distance} meters. If the angle of elevation from the ground to the drone is ${angle}°, how far is the drone horizontally from the observer?`;
+                    solutionHint = `Use the tangent function (tanθ = opposite/adjacent). You know θ = ${angle}° and opposite side = ${distance}m. Solve for adjacent side.`;
+                    break;
+                    
+                default:
+                    problemText = `Create a real-world drone scenario that uses the ${equationName} (${formula}) to solve a problem. Explain your solution process.`;
+                    solutionHint = `Think about how drones might use ${equationName} in navigation, positioning, or data collection.`;
+            }
+            
+            problemArea.innerHTML = `
+                <p><strong>Problem:</strong> ${problemText}</p>
+                <div class="mt-4 p-3 bg-gray-800 rounded-lg border border-gray-700">
+                    <p class="text-sm text-purple-300"><i class="fas fa-lightbulb mr-2"></i> <strong>Hint:</strong> ${solutionHint}</p>
+                </div>
+            `;
+            
+            // Clear previous answer and feedback
+            document.getElementById('studentAnswer').value = '';
+            document.getElementById('feedbackContainer').style.display = 'none';
+        }
+        
+        // Check student's answer
+        function checkAnswer() {
+            attemptsCount++;
+            const answer = document.getElementById('studentAnswer').value.trim();
+            const feedbackArea = document.getElementById('feedbackArea');
+            const feedbackContainer = document.getElementById('feedbackContainer');
+            
+            if (!answer) {
+                feedbackArea.innerHTML = '<div class="feedback-incorrect"><i class="fas fa-exclamation-circle mr-2"></i> Please enter your answer before submitting.</div>';
+                feedbackContainer.style.display = 'block';
+                return;
+            }
+            
+            // Simulate AI checking (in a real app, this would call an API)
+            const isCorrect = Math.random() > 0.3; // 70% chance of being correct for demo
+            
+            if (isCorrect) {
+                correctAnswers++;
+                masteryProgress = Math.min(100, masteryProgress + 15);
+                feedbackArea.innerHTML = `
+                    <div class="feedback-correct">
+                        <i class="fas fa-check-circle mr-2"></i> <strong>Correct!</strong> Your solution demonstrates good understanding of ${selectedEquation}.
+                        <div class="mt-3 p-2 bg-gray-800 rounded-lg">
+                            <p class="text-sm"><strong>Detailed Feedback:</strong> Your approach to solving this problem using ${selectedEquation} is accurate. The calculations appear correct, and your explanation shows solid understanding of the concept.</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Check if mastery is complete
+                if (masteryProgress >= 100) {
+                    setTimeout(() => {
+                        showCertificate();
+                    }, 1500);
+                }
+            } else {
+                masteryProgress = Math.max(0, masteryProgress - 5);
+                feedbackArea.innerHTML = `
+                    <div class="feedback-incorrect">
+                        <i class="fas fa-times-circle mr-2"></i> <strong>Not quite right.</strong> There seems to be an issue with your solution.
+                        <div class="mt-3 p-2 bg-gray-800 rounded-lg">
+                            <p class="text-sm"><strong>Suggestions:</strong> Review the application of ${selectedEquation}. Double-check your calculations and ensure you're applying the formula correctly to this specific scenario.</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Update progress display
+            updateProgressDisplay();
+            
+            // Show feedback
+            feedbackContainer.style.display = 'block';
+            document.getElementById('feedbackBadge').textContent = 'New';
+        }
+        
+        // Update progress display
+        function updateProgressDisplay() {
+            document.getElementById('masteryProgress').style.width = `${masteryProgress}%`;
+            document.getElementById('masteryPercent').textContent = `${masteryProgress}%`;
+            document.getElementById('attemptsCount').textContent = `Attempts: ${attemptsCount}`;
+            document.getElementById('accuracyRate').textContent = `Accuracy: ${Math.round((correctAnswers / attemptsCount) * 100)}%`;
+        }
+        
+        // Update time spent display
+        function updateTimeSpent() {
+            const now = new Date();
+            const seconds = Math.floor((now - startTime) / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const displaySeconds = seconds % 60;
+            document.getElementById('timeSpent').textContent = `Time: ${minutes}m ${displaySeconds}s`;
+        }
+        
+        // Show certificate
+        function showCertificate() {
+            const certificateContainer = document.getElementById('certificateContainer');
+            const studentName = "Alex Johnson"; // In a real app, this would come from user profile
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            document.getElementById('studentName').textContent = studentName;
+            document.getElementById('certificateEquation').textContent = selectedEquation;
+            document.getElementById('certificateDate').textContent = dateStr;
+            
+            certificateContainer.style.display = 'flex';
+        }
+        
+        // Close certificate
+        function closeCertificate() {
+            document.getElementById('certificateContainer').style.display = 'none';
+        }
+        
+        // Download certificate as PDF
+        function downloadCertificate() {
+            const element = document.getElementById('certificate');
+            const opt = {
+                margin: 10,
+                filename: `ENIGMA_STEM_ENGINE_Certificate_${selectedEquation.replace(/ /g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        }
+        
+        // Toggle language between English and Hindi
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'english' ? 'hindi' : 'english';
+            const button = document.getElementById('languageToggle');
+            
+            if (currentLanguage === 'hindi') {
+                button.innerHTML = '<i class="fas fa-language mr-2"></i> English';
+                // In a real app, we would translate the interface here
+            } else {
+                button.innerHTML = '<i class="fas fa-language mr-2"></i> हिंदी (Hindi)';
+                // In a real app, we would translate back to English here
+            }
+        }
+        
+        // Simplify the explanation using AI
+        function simplifyAnswer() {
+            const answer = document.getElementById('studentAnswer').value.trim();
+            
+            if (!answer) {
+                alert('Please enter your answer first.');
+                return;
+            }
+            
+            const gradeLevel = document.getElementById('classSelect').value || '8';
+            
+            // Show loading state
+            const feedbackArea = document.getElementById('feedbackArea');
+            feedbackArea.innerHTML = '<p><i class="fas fa-spinner fa-spin mr-2"></i> Simplifying explanation for grade ' + gradeLevel + ' level...</p>';
+            document.getElementById('feedbackContainer').style.display = 'block';
+            
+            // Call Mistral AI API to simplify the explanation
+            callMistralAI(
+                `Simplify this mathematical explanation for a grade ${gradeLevel} student, keeping the core concepts accurate but using simpler language and more relatable examples. Here's the original explanation:\n\n${answer}`
+            ).then(response => {
+                feedbackArea.innerHTML = `
+                    <div class="feedback-correct">
+                        <i class="fas fa-comment-alt mr-2"></i> <strong>Simplified Explanation:</strong>
+                        <div class="mt-3 p-3 bg-gray-800 rounded-lg">
+                            <p>${response}</p>
+                        </div>
+                    </div>
+                `;
+            }).catch(error => {
+                feedbackArea.innerHTML = `
+                    <div class="feedback-incorrect">
+                        <i class="fas fa-exclamation-circle mr-2"></i> Error simplifying explanation. Please try again later.
+                    </div>
+                `;
+                console.error('Error calling Mistral AI:', error);
+            });
+        }
+        
+        // Translate answer to Hindi using AI
+        function translateToHindi() {
+            const answer = document.getElementById('studentAnswer').value.trim();
+            
+            if (!answer) {
+                alert('Please enter your answer first.');
+                return;
+            }
+            
+            // Show loading state
+            const feedbackArea = document.getElementById('feedbackArea');
+            feedbackArea.innerHTML = '<p><i class="fas fa-spinner fa-spin mr-2"></i> Translating to Hindi...</p>';
+            document.getElementById('feedbackContainer').style.display = 'block';
+            
+            // Call Mistral AI API to translate to Hindi
+            callMistralAI(
+                `Translate this mathematical explanation to Hindi while keeping all technical terms accurate. Here's the original English text:\n\n${answer}`
+            ).then(response => {
+                feedbackArea.innerHTML = `
+                    <div class="feedback-correct">
+                        <i class="fas fa-language mr-2"></i> <strong>Hindi Translation:</strong>
+                        <div class="mt-3 p-3 bg-gray-800 rounded-lg">
+                            <p>${response}</p>
+                        </div>
+                    </div>
+                `;
+            }).catch(error => {
+                feedbackArea.innerHTML = `
+                    <div class="feedback-incorrect">
+                        <i class="fas fa-exclamation-circle mr-2"></i> Error translating to Hindi. Please try again later.
+                    </div>
+                `;
+                console.error('Error calling Mistral AI:', error);
+            });
+        }
+        
+        // Load competitions from AI
+        function loadCompetitions() {
+            const competitionsList = document.getElementById('competitionsList');
+            const updatesList = document.getElementById('competitionUpdates');
+            
+            // Show loading state
+            competitionsList.innerHTML = `
+                <div class="competition-card">
+                    <h4><i class="fas fa-spinner fa-spin mr-2"></i> Loading Competitions...</h4>
+                    <p>Please wait while we load the latest competitions</p>
+                </div>
+            `;
+            
+            updatesList.innerHTML = '<p><i class="fas fa-spinner fa-spin mr-2"></i> Loading updates...</p>';
+            
+            // Call Mistral AI API to generate competitions
+            callMistralAI(
+                `Generate 3 STEM drone competitions for high school students with creative challenges that involve math, programming, and drone piloting skills. 
+                For each competition, provide:
+                1. A creative title
+                2. A 1-2 sentence description of the challenge
+                3. The key skills tested
+                4. The deadline date (random future dates in the next 3 months)
+                
+                Format the response as HTML div elements with class="competition-card" for each competition.`
+            ).then(response => {
+                competitionsList.innerHTML = response;
+                
+                // Now generate updates
+                return callMistralAI(
+                    `Generate 5 recent updates about the drone competitions you just created. These should include:
+                    1. Registration numbers increasing
+                    2. New teams joining
+                    3. Preparation tips
+                    4. Rule clarifications
+                    5. Exciting developments
+                    
+                    Format each update as a short paragraph with an emoji at the start.`
+                );
+            }).then(updates => {
+                updatesList.innerHTML = updates;
+            }).catch(error => {
+                competitionsList.innerHTML = `
+                    <div class="competition-card">
+                        <h4><i class="fas fa-exclamation-triangle mr-2"></i> Error Loading Competitions</h4>
+                        <p>Could not load competitions. Please try again later.</p>
+                    </div>
+                `;
+                updatesList.innerHTML = '<p><i class="fas fa-exclamation-triangle mr-2"></i> Could not load updates</p>';
+                console.error('Error loading competitions:', error);
+            });
+        }
+        
+        // Ask pilot question to AI
+        function askPilotQuestion() {
+            const question = document.getElementById('pilotQuestion').value.trim();
+            const pilotAnswer = document.getElementById('pilotAnswer');
+            const pilotAnswerText = document.getElementById('pilotAnswerText');
+            
+            if (!question) {
+                alert('Please enter your piloting question first.');
+                return;
+            }
+            
+            // Show loading state
+            pilotAnswerText.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Analyzing your question...';
+            pilotAnswer.style.display = 'block';
+            
+            // Call Mistral AI API
+            callMistralAI(
+                `You are a drone piloting expert. Answer this question in simple terms suitable for a student: ${question}
+                
+                Include:
+                1. A clear, concise answer
+                2. Any important safety considerations
+                3. Practical tips if applicable
+                4. Common mistakes to avoid`
+            ).then(response => {
+                pilotAnswerText.innerHTML = response;
+            }).catch(error => {
+                pilotAnswerText.innerHTML = 'Sorry, I encountered an error answering your question. Please try again later.';
+                console.error('Error calling Mistral AI:', error);
+            });
+        }
+        
+        // Connect to drone
+        function connectToDrone() {
+            const ip = document.getElementById('droneIp').value.trim();
+            const port = document.getElementById('dronePort').value.trim();
+            const password = document.getElementById('dronePassword').value;
+            const statusDiv = document.getElementById('connectionStatus');
+            const statusText = document.getElementById('statusText');
+            
+            if (!ip || !password) {
+                statusDiv.className = 'bg-red-900 text-red-100';
+                statusText.textContent = 'Please enter both IP address and password';
+                statusDiv.classList.remove('hidden');
+                return;
+            }
+            
+            // Simulate connection (in a real app, this would actually connect)
+            statusDiv.className = 'bg-blue-900 text-blue-100';
+            statusText.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Connecting to drone at ' + ip + '...';
+            statusDiv.classList.remove('hidden');
+            
+            setTimeout(() => {
+                // Simulate successful connection
+                droneConnected = true;
+                statusDiv.className = 'bg-green-900 text-green-100';
+                statusText.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Successfully connected to drone!';
+                
+                // Enable piloting section
+                document.querySelector('a[href="#pilot"]').classList.remove('disabled');
+            }, 2000);
+        }
+        
+        // Send drone command
+        function sendDroneCommand(command) {
+            if (!droneConnected) {
+                alert('Please connect to a drone first.');
+                return;
+            }
+            
+            // In a real app, this would send the command to the drone
+            console.log('Sending command to drone:', command);
+            
+            // Show visual feedback
+            const statusDiv = document.getElementById('connectionStatus');
+            const statusText = document.getElementById('statusText');
+            
+            statusDiv.className = 'bg-purple-900 text-purple-100';
+            statusText.innerHTML = `<i class="fas fa-paper-plane mr-2"></i> Sent command: ${command}`;
+            statusDiv.classList.remove('hidden');
+            
+            setTimeout(() => {
+                statusDiv.classList.add('hidden');
+            }, 2000);
+        }
+        
+        // View certificate
+        function viewCertificate(certName) {
+            document.getElementById('certificateEquation').textContent = certName;
+            showCertificate();
+        }
+        
+        // Call Mistral AI API
+        async function callMistralAI(prompt) {
+            try {
+                const response = await fetch("https://api.mistral.ai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${MISTRAL_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: "mistral-large-latest",
+                        messages: [{"role": "user", "content": prompt}],
+                        temperature: 0.7
+                    })
+                });
+                
+                const data = await response.json();
+                return data.choices[0].message.content;
+            } catch (error) {
+                console.error('Error calling Mistral AI:', error);
+                throw error;
+            }
+        }
+    </script>
 </body>
 </html>
