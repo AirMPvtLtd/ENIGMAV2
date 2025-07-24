@@ -400,6 +400,17 @@
             z-index: 50;
         }
         
+        .profile-form input, .profile-form select {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(30, 30, 30, 0.7);
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            margin-bottom: 15px;
+        }
+        
         @media (max-width: 768px) {
             .logo-svg {
                 width: 100px;
@@ -521,6 +532,7 @@
                         <h3 class="text-lg font-semibold mb-4 text-white border-b border-gray-700 pb-2">Navigation</h3>
                         <ul class="sidebar-menu">
                             <li><a href="#home" class="active flex items-center py-2"><i class="fas fa-home mr-3"></i> Home</a></li>
+                            <li><a href="#profile" class="flex items-center py-2"><i class="fas fa-user mr-3"></i> My Profile</a></li>
                             <li><a href="#competitions" class="flex items-center py-2"><i class="fas fa-trophy mr-3"></i> Competitions</a></li>
                             <li><a href="#pilot" class="flex items-center py-2"><i class="fas fa-drone mr-3"></i> Piloting</a></li>
                             <li><a href="#certificates" class="flex items-center py-2"><i class="fas fa-certificate mr-3"></i> Certificates</a></li>
@@ -542,7 +554,7 @@
                 <div class="lg:col-span-3">
                     <div class="card mb-8">
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold section-heading"><i class="fas fa-map-marked-alt mr-2"></i> Flight Path Analysis</h2>
+                            <h2 class="text-2xl font-bold section-heading"><i class="fas fa-map-marked-alt mr-2"></i> Applied Invention Skills Program</h2>
                             <div class="flex space-x-3">
                                 <button class="accent-button"><i class="fas fa-download mr-2"></i> Export Data</button>
                                 <button class="accent-button"><i class="fas fa-share-alt mr-2"></i> Share</button>
@@ -587,28 +599,36 @@
                             <canvas id="flightCanvas" width="800" height="400"></canvas>
                         </div>
                         
-                        <div class="equation-list mb-8" id="equationList"></div>
+                        <div class="equation-list mb-8" id="equationList">
+                            <div class="info-card">
+                                <h4><i class="fas fa-brain mr-2"></i> Suggested Mathematical Concepts</h4>
+                                <p id="aiSuggestedEquations">Click "Analyze Flight Path" to see which mathematical concepts are most relevant to this flight pattern.</p>
+                                <button class="accent-button mt-3" onclick="analyzeFlightPath()">
+                                    <i class="fas fa-robot mr-2"></i> Analyze Flight Path
+                                </button>
+                            </div>
+                        </div>
                         
                         <!-- Vertical Info Blocks -->
                         <div class="info-vertical mb-8">
                             <div class="info-card">
                                 <h4><i class="fas fa-history mr-2"></i> Historical Context</h4>
-                                <p id="origin">Select an equation to learn about its historical development and significance in mathematics.</p>
+                                <p id="origin">After analyzing the flight path, we'll show the historical development of the relevant mathematical concepts.</p>
                             </div>
                             
                             <div class="info-card">
                                 <h4><i class="fas fa-rocket mr-2"></i> Modern Applications</h4>
-                                <p id="modernUse">Discover how this mathematical concept is applied in modern technology, especially in drone aviation.</p>
+                                <p id="modernUse">Discover how these mathematical concepts are applied in modern technology, especially in drone aviation.</p>
                             </div>
                             
                             <div class="info-card">
                                 <h4><i class="fas fa-drone mr-2"></i> Drone Technology</h4>
-                                <p id="droneImpact">Learn how this equation impacts drone flight paths, navigation, and performance optimization.</p>
+                                <p id="droneImpact">Learn how these equations impact drone flight paths, navigation, and performance optimization.</p>
                             </div>
                             
                             <div class="info-card">
                                 <h4><i class="fas fa-code mr-2"></i> Programming</h4>
-                                <p id="coding">See practical examples of how to implement this mathematical concept in programming code.</p>
+                                <p id="coding">See practical examples of how to implement these mathematical concepts in programming code.</p>
                             </div>
                         </div>
                     </div>
@@ -617,7 +637,7 @@
                         <div class="problem-container mb-6">
                             <h3><i class="fas fa-puzzle-piece mr-2"></i> Learning Challenge</h3>
                             <div class="problem-content" id="problemArea">
-                                <p>Select an equation from above to receive a customized problem based on the current flight path analysis.</p>
+                                <p>After analyzing the flight path, we'll generate a customized problem based on the mathematical concepts involved.</p>
                             </div>
                             
                             <div class="answer-input mt-4">
@@ -654,6 +674,71 @@
                                 <span id="accuracyRate">Accuracy: 0%</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="content-section py-8" style="display: none;">
+            <h2 class="text-2xl font-bold section-heading mb-6"><i class="fas fa-user mr-2"></i> My Profile</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="connect-form">
+                        <h3 class="text-xl font-semibold mb-4">Personal Information</h3>
+                        <div class="mb-4">
+                            <label for="profileName" class="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                            <input type="text" id="profileName" placeholder="Enter your full name" class="w-full">
+                        </div>
+                        <div class="mb-4">
+                            <label for="profileEmail" class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                            <input type="email" id="profileEmail" placeholder="Enter your email" class="w-full">
+                        </div>
+                        <div class="mb-4">
+                            <label for="profileCollege" class="block text-sm font-medium text-gray-300 mb-2">School/College</label>
+                            <input type="text" id="profileCollege" placeholder="Enter your school/college name" class="w-full">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="profileGrade" class="block text-sm font-medium text-gray-300 mb-2">Grade/Class</label>
+                                <select id="profileGrade" class="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white">
+                                    <option value="">-- Select Grade --</option>
+                                    <option value="6">Grade 6</option>
+                                    <option value="7">Grade 7</option>
+                                    <option value="8">Grade 8</option>
+                                    <option value="9">Grade 9</option>
+                                    <option value="10">Grade 10</option>
+                                    <option value="11">Grade 11</option>
+                                    <option value="12">Grade 12</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="profileAge" class="block text-sm font-medium text-gray-300 mb-2">Age</label>
+                                <input type="number" id="profileAge" placeholder="Enter your age" class="w-full">
+                            </div>
+                        </div>
+                        <button class="accent-button w-full mt-6" onclick="saveProfile()">
+                            <i class="fas fa-save mr-2"></i> Save Profile
+                        </button>
+                        <div id="profileStatus" class="mt-4 p-3 rounded-lg text-center hidden">
+                            <p id="profileStatusText"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="info-card h-full">
+                        <h4><i class="fas fa-info-circle mr-2"></i> Profile Information</h4>
+                        <p class="mb-3">Your profile helps us customize the learning experience to your grade level and interests.</p>
+                        <p class="mb-3">We'll use this information to:</p>
+                        <ul class="list-disc list-inside mb-3 pl-2">
+                            <li>Suggest appropriate challenges</li>
+                            <li>Track your progress</li>
+                            <li>Personalize your certificates</li>
+                            <li>Recommend competitions</li>
+                        </ul>
+                        <p class="text-sm text-gray-400 mt-4">Note: All information is kept secure and private.</p>
                     </div>
                 </div>
             </div>
@@ -848,6 +933,8 @@
         let startTime = new Date();
         let correctAnswers = 0;
         let selectedEquation = '';
+        let currentProblem = '';
+        let currentSolution = '';
         const MISTRAL_API_KEY = 'x4FTLzA5S3mjqJX42QYspPDuOfrLGpTJ';
         
         // Initialize the page
@@ -859,16 +946,12 @@
             initDroneCanvas();
             initFlightCanvas();
             
-            // Load equations based on default grade level
-            document.getElementById('classSelect').addEventListener('change', function() {
-                currentGradeLevel = this.value;
-                loadEquations(currentGradeLevel);
-            });
+            // Load profile if exists
+            loadProfile();
             
             // Set default grade level to 8
             document.getElementById('classSelect').value = '8';
             currentGradeLevel = '8';
-            loadEquations('8');
             
             // Start timer for time spent calculation
             setInterval(updateTimeSpent, 1000);
@@ -1085,189 +1168,164 @@
             drawFlightPath();
         }
         
-        // Load equations based on grade level
-        function loadEquations(gradeLevel) {
+        // Analyze flight path and suggest equations
+        function analyzeFlightPath() {
+            const gradeLevel = document.getElementById('classSelect').value || '8';
             const equationList = document.getElementById('equationList');
-            equationList.innerHTML = '';
             
-            // Sample equations by grade level
-            const equations = {
-                '6': [
-                    { name: 'Distance Formula', formula: 'd = √((x₂ - x₁)² + (y₂ - y₁)²)' },
-                    { name: 'Speed Calculation', formula: 'speed = distance / time' },
-                    { name: 'Area of Rectangle', formula: 'A = length × width' }
-                ],
-                '7': [
-                    { name: 'Pythagorean Theorem', formula: 'a² + b² = c²' },
-                    { name: 'Slope Formula', formula: 'm = (y₂ - y₁)/(x₂ - x₁)' },
-                    { name: 'Perimeter of Polygon', formula: 'P = sum of all sides' }
-                ],
-                '8': [
-                    { name: 'Linear Equation', formula: 'y = mx + b' },
-                    { name: 'Quadratic Formula', formula: 'x = [-b ± √(b² - 4ac)] / 2a' },
-                    { name: 'Volume of Cylinder', formula: 'V = πr²h' }
-                ],
-                '9': [
-                    { name: 'Trigonometric Ratios', formula: 'sinθ = opp/hyp, cosθ = adj/hyp, tanθ = opp/adj' },
-                    { name: 'Kinematic Equation', formula: 'd = v₀t + ½at²' },
-                    { name: 'Exponential Growth', formula: 'A = A₀(1 + r)^t' }
-                ],
-                '10': [
-                    { name: 'Law of Cosines', formula: 'c² = a² + b² - 2ab cos(C)' },
-                    { name: 'Vector Magnitude', formula: '|v| = √(x² + y² + z²)' },
-                    { name: 'Logarithmic Equation', formula: 'logₐb = c ⇔ a^c = b' }
-                ],
-                '11': [
-                    { name: 'Derivative Power Rule', formula: 'd/dx(x^n) = nx^(n-1)' },
-                    { name: 'Dot Product', formula: 'A·B = |A||B|cosθ' },
-                    { name: 'Parametric Equations', formula: 'x = x₀ + v₀t, y = y₀ + v₀t - ½gt²' }
-                ],
-                '12': [
-                    { name: 'Integral Calculus', formula: '∫f(x)dx = F(x) + C' },
-                    { name: 'Cross Product', formula: 'A×B = |A||B|sinθ n̂' },
-                    { name: 'Matrix Transformation', formula: 'x\' = a·x + b·y, y\' = c·x + d·y' }
-                ]
-            };
-            
-            // Display equations
-            equations[gradeLevel].forEach(eq => {
-                const button = document.createElement('button');
-                button.className = 'equation-btn';
-                button.innerHTML = `<strong>${eq.name}</strong>: ${eq.formula}`;
-                button.onclick = function() {
-                    selectEquation(eq.name, eq.formula);
-                    
-                    // Remove active class from all buttons
-                    document.querySelectorAll('.equation-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                };
-                equationList.appendChild(button);
-            });
-        }
-        
-        // Handle equation selection
-        function selectEquation(name, formula) {
-            selectedEquation = name;
-            
-            // Update information cards
-            document.getElementById('origin').textContent = getHistoricalContext(name);
-            document.getElementById('modernUse').textContent = getModernApplications(name);
-            document.getElementById('droneImpact').textContent = getDroneImpact(name);
-            document.getElementById('coding').textContent = getCodingExample(name);
-            
-            // Generate a problem
-            generateProblem(name, formula);
-        }
-        
-        // Get historical context for equation
-        function getHistoricalContext(equationName) {
-            const contexts = {
-                'Distance Formula': 'The distance formula was first used by ancient Greek mathematicians like Euclid and later formalized by René Descartes in the 17th century as part of coordinate geometry.',
-                'Pythagorean Theorem': 'Named after the Greek mathematician Pythagoras, though it was known to Babylonian and Indian mathematicians centuries earlier. It\'s one of the most fundamental theorems in geometry.',
-                'Quadratic Formula': 'The quadratic formula for solving quadratic equations was first discovered by ancient Babylonian mathematicians around 2000 BCE, with later contributions from Greek, Indian, and Persian mathematicians.',
-                'Trigonometric Ratios': 'Trigonometry was developed by ancient Greek astronomers to study the stars, with key contributions from Hipparchus and Ptolemy. The modern sine, cosine, and tangent functions were formalized in the Middle Ages.'
-            };
-            
-            return contexts[equationName] || `The historical development of ${equationName} is fascinating, involving contributions from mathematicians across different cultures and time periods.`;
-        }
-        
-        // Get modern applications for equation
-        function getModernApplications(equationName) {
-            const applications = {
-                'Distance Formula': 'Used in GPS technology, computer graphics, and robotics for calculating distances between points. Essential for navigation systems in drones and autonomous vehicles.',
-                'Pythagorean Theorem': 'Applied in construction, computer graphics, and physics. Used in drone technology for calculating diagonal distances and ensuring proper sensor alignment.',
-                'Quadratic Formula': 'Critical in engineering, physics, and economics for solving optimization problems. Used in drone flight path calculations to determine optimal trajectories.',
-                'Trigonometric Ratios': 'Essential in fields like astronomy, physics, and engineering. Used in drone stabilization systems and for calculating angles in aerial photography.'
-            };
-            
-            return applications[equationName] || `${equationName} has numerous applications in modern technology, including drone navigation, computer graphics, and engineering design.`;
-        }
-        
-        // Get drone impact for equation
-        function getDroneImpact(equationName) {
-            const impacts = {
-                'Distance Formula': 'Drones use the distance formula to calculate how far they\'ve traveled, determine battery usage, and plan efficient flight paths between waypoints.',
-                'Pythagorean Theorem': 'Helps drones calculate diagonal distances when navigating 3D space, important for obstacle avoidance and precise positioning.',
-                'Quadratic Formula': 'Used in drone flight controllers to calculate optimal acceleration and deceleration curves for smooth, efficient movement.',
-                'Trigonometric Ratios': 'Critical for drone stabilization, camera gimbal control, and calculating angles for aerial photography and mapping.'
-            };
-            
-            return impacts[equationName] || `${equationName} plays a crucial role in drone technology, affecting flight stability, navigation accuracy, and operational efficiency.`;
-        }
-        
-        // Get coding example for equation
-        function getCodingExample(equationName) {
-            const examples = {
-                'Distance Formula': 'In Python:\nimport math\ndef distance(x1, y1, x2, y2):\n    return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)',
-                'Pythagorean Theorem': 'In JavaScript:\nfunction pythagorean(a, b) {\n    return Math.sqrt(a*a + b*b);\n}',
-                'Quadratic Formula': 'In C++:\n#include <cmath>\nvoid solveQuadratic(double a, double b, double c) {\n    double discriminant = b*b - 4*a*c;\n    if (discriminant >= 0) {\n        double root1 = (-b + sqrt(discriminant)) / (2*a);\n        double root2 = (-b - sqrt(discriminant)) / (2*a);\n    }\n}',
-                'Trigonometric Ratios': 'In Python:\nimport math\nangle = 45  # degrees\nradians = math.radians(angle)\nsin_val = math.sin(radians)\ncos_val = math.cos(radians)\ntan_val = math.tan(radians)'
-            };
-            
-            return examples[equationName] || `Programming implementation of ${equationName} varies by language but typically involves basic arithmetic operations and sometimes specialized math functions.`;
-        }
-        
-        // Generate a problem based on the selected equation
-        function generateProblem(equationName, formula) {
-            const problemArea = document.getElementById('problemArea');
-            let problemText = '';
-            let solutionHint = '';
-            
-            // Generate different problems based on equation
-            switch(equationName) {
-                case 'Distance Formula':
-                    const x1 = Math.floor(Math.random() * 20) - 10;
-                    const y1 = Math.floor(Math.random() * 20) - 10;
-                    const x2 = Math.floor(Math.random() * 20) - 10;
-                    const y2 = Math.floor(Math.random() * 20) - 10;
-                    problemText = `A drone flies from point A (${x1}, ${y1}) to point B (${x2}, ${y2}) on a coordinate grid. Calculate the straight-line distance the drone traveled using the distance formula.`;
-                    solutionHint = `Remember the distance formula: ${formula}. Plug in the coordinates (x₁, y₁) = (${x1}, ${y1}) and (x₂, y₂) = (${x2}, ${y2}).`;
-                    break;
-                    
-                case 'Pythagorean Theorem':
-                    const a = Math.floor(Math.random() * 10) + 3;
-                    const b = Math.floor(Math.random() * 10) + 3;
-                    problemText = `A drone's camera has a field of view that forms a right triangle. If the horizontal view is ${a} meters and the vertical view is ${b} meters, how far is the diagonal (hypotenuse) view?`;
-                    solutionHint = `Use the Pythagorean theorem (${formula}) where a = ${a} and b = ${b}. Solve for c.`;
-                    break;
-                    
-                case 'Quadratic Formula':
-                    const aq = Math.floor(Math.random() * 3) + 1;
-                    const bq = Math.floor(Math.random() * 10) - 5;
-                    const cq = Math.floor(Math.random() * 10) - 5;
-                    problemText = `A drone's altitude follows the equation h(t) = ${aq}t² + ${bq}t + ${cq}, where t is time in seconds. At what time(s) will the drone be at ground level (h = 0)?`;
-                    solutionHint = `Set the equation to 0: ${aq}t² + ${bq}t + ${cq} = 0 and solve for t using the quadratic formula (${formula}).`;
-                    break;
-                    
-                case 'Trigonometric Ratios':
-                    const angle = Math.floor(Math.random() * 30) + 30;
-                    const distance = Math.floor(Math.random() * 100) + 50;
-                    problemText = `A drone is flying at an altitude of ${distance} meters. If the angle of elevation from the ground to the drone is ${angle}°, how far is the drone horizontally from the observer?`;
-                    solutionHint = `Use the tangent function (tanθ = opposite/adjacent). You know θ = ${angle}° and opposite side = ${distance}m. Solve for adjacent side.`;
-                    break;
-                    
-                default:
-                    problemText = `Create a real-world drone scenario that uses the ${equationName} (${formula}) to solve a problem. Explain your solution process.`;
-                    solutionHint = `Think about how drones might use ${equationName} in navigation, positioning, or data collection.`;
-            }
-            
-            problemArea.innerHTML = `
-                <p><strong>Problem:</strong> ${problemText}</p>
-                <div class="mt-4 p-3 bg-gray-800 rounded-lg border border-gray-700">
-                    <p class="text-sm text-purple-300"><i class="fas fa-lightbulb mr-2"></i> <strong>Hint:</strong> ${solutionHint}</p>
+            // Show loading state
+            equationList.innerHTML = `
+                <div class="info-card">
+                    <h4><i class="fas fa-spinner fa-spin mr-2"></i> Analyzing Flight Path</h4>
+                    <p>Our AI is analyzing the flight path to suggest relevant mathematical concepts...</p>
                 </div>
             `;
             
-            // Clear previous answer and feedback
-            document.getElementById('studentAnswer').value = '';
-            document.getElementById('feedbackContainer').style.display = 'none';
+            // Call AI to analyze flight path and suggest equations
+            callMistralAI(
+                `Analyze this drone flight path pattern (circular with waypoints) and suggest 3-5 mathematical concepts 
+                that would be most relevant for a grade ${gradeLevel} student to understand and analyze this flight. 
+                For each concept, provide:
+                1. The name of the mathematical concept
+                2. The standard formula/equation
+                3. A very brief (1 sentence) explanation of how it applies to this flight path
+                
+                Format the response as HTML buttons with class="equation-btn" for each concept.`
+            ).then(response => {
+                equationList.innerHTML = response;
+                
+                // Add click handlers to the generated buttons
+                document.querySelectorAll('.equation-btn').forEach(button => {
+                    button.onclick = function() {
+                        selectEquationFromAI(this.textContent);
+                        
+                        // Remove active class from all buttons
+                        document.querySelectorAll('.equation-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked button
+                        this.classList.add('active');
+                    };
+                });
+            }).catch(error => {
+                equationList.innerHTML = `
+                    <div class="info-card">
+                        <h4><i class="fas fa-exclamation-triangle mr-2"></i> Analysis Failed</h4>
+                        <p>Could not analyze flight path. Please try again later.</p>
+                        <button class="accent-button mt-3" onclick="analyzeFlightPath()">
+                            <i class="fas fa-redo mr-2"></i> Try Again
+                        </button>
+                    </div>
+                `;
+                console.error('Error analyzing flight path:', error);
+            });
         }
         
-        // Check student's answer
+        // Handle equation selection from AI analysis
+        function selectEquationFromAI(equationText) {
+            // Extract equation name from the button text
+            const equationParts = equationText.split(':');
+            selectedEquation = equationParts[0].trim();
+            const formula = equationParts.length > 1 ? equationParts[1].trim() : '';
+            
+            // Call AI to get detailed information about this equation
+            callMistralAI(
+                `Provide detailed information about the mathematical concept "${selectedEquation}" (${formula}) for a student. Include:
+                1. Historical context (1 paragraph)
+                2. Modern applications (1 paragraph)
+                3. Drone technology applications (1 paragraph)
+                4. Programming implementation example (code snippet)
+                
+                Format the response as a JSON object with these keys:
+                history, modern, drone, code`
+            ).then(response => {
+                try {
+                    const data = JSON.parse(response);
+                    document.getElementById('origin').textContent = data.history || 'Historical context not available.';
+                    document.getElementById('modernUse').textContent = data.modern || 'Modern applications not available.';
+                    document.getElementById('droneImpact').textContent = data.drone || 'Drone applications not available.';
+                    document.getElementById('coding').textContent = data.code || 'Code example not available.';
+                    
+                    // Generate a problem based on this equation
+                    generateProblemFromAI(selectedEquation, formula);
+                } catch (e) {
+                    console.error('Error parsing AI response:', e);
+                    // Fallback to generic information
+                    document.getElementById('origin').textContent = `The historical development of ${selectedEquation} is fascinating, involving contributions from mathematicians across different cultures and time periods.`;
+                    document.getElementById('modernUse').textContent = `${selectedEquation} has numerous applications in modern technology, including drone navigation, computer graphics, and engineering design.`;
+                    document.getElementById('droneImpact').textContent = `${selectedEquation} plays a crucial role in drone technology, affecting flight stability, navigation accuracy, and operational efficiency.`;
+                    document.getElementById('coding').textContent = `Programming implementation of ${selectedEquation} varies by language but typically involves basic arithmetic operations and sometimes specialized math functions.`;
+                    
+                    generateProblemFromAI(selectedEquation, formula);
+                }
+            }).catch(error => {
+                console.error('Error getting equation details:', error);
+                // Fallback to generic information
+                document.getElementById('origin').textContent = `The historical development of ${selectedEquation} is fascinating, involving contributions from mathematicians across different cultures and time periods.`;
+                document.getElementById('modernUse').textContent = `${selectedEquation} has numerous applications in modern technology, including drone navigation, computer graphics, and engineering design.`;
+                document.getElementById('droneImpact').textContent = `${selectedEquation} plays a crucial role in drone technology, affecting flight stability, navigation accuracy, and operational efficiency.`;
+                document.getElementById('coding').textContent = `Programming implementation of ${selectedEquation} varies by language but typically involves basic arithmetic operations and sometimes specialized math functions.`;
+                
+                generateProblemFromAI(selectedEquation, formula);
+            });
+        }
+        
+        // Generate a problem based on the selected equation using AI
+        function generateProblemFromAI(equationName, formula) {
+            const problemArea = document.getElementById('problemArea');
+            const gradeLevel = document.getElementById('classSelect').value || '8';
+            
+            // Show loading state
+            problemArea.innerHTML = '<p><i class="fas fa-spinner fa-spin mr-2"></i> Generating a learning challenge based on ' + equationName + '...</p>';
+            
+            // Call AI to generate a problem
+            callMistralAI(
+                `Create a real-world drone-related problem for a grade ${gradeLevel} student that requires using the mathematical concept "${equationName}" (${formula}) to solve it. 
+                The problem should:
+                1. Be clearly stated
+                2. Relate to drone flight or operations
+                3. Be appropriate for the grade level
+                4. Include all necessary information to solve it
+                5. Have a specific numerical answer
+                
+                Also provide the correct solution with steps and explanation, but keep this separate from the problem statement.
+                
+                Format the response as a JSON object with these keys:
+                problem, solution`
+            ).then(response => {
+                try {
+                    const data = JSON.parse(response);
+                    currentProblem = data.problem;
+                    currentSolution = data.solution;
+                    
+                    problemArea.innerHTML = `
+                        <p><strong>Problem:</strong> ${currentProblem}</p>
+                        <div class="mt-4 p-3 bg-gray-800 rounded-lg border border-gray-700">
+                            <p class="text-sm text-purple-300"><i class="fas fa-lightbulb mr-2"></i> <strong>Hint:</strong> Think about how to apply ${equationName} to solve this drone-related problem.</p>
+                        </div>
+                    `;
+                } catch (e) {
+                    console.error('Error parsing problem response:', e);
+                    problemArea.innerHTML = `
+                        <p><strong>Problem:</strong> Create a real-world drone scenario that uses ${equationName} (${formula}) to solve a problem. Explain your solution process.</p>
+                        <div class="mt-4 p-3 bg-gray-800 rounded-lg border border-gray-700">
+                            <p class="text-sm text-purple-300"><i class="fas fa-lightbulb mr-2"></i> <strong>Hint:</strong> Think about how drones might use ${equationName} in navigation, positioning, or data collection.</p>
+                        </div>
+                    `;
+                }
+            }).catch(error => {
+                console.error('Error generating problem:', error);
+                problemArea.innerHTML = `
+                    <p><strong>Problem:</strong> Create a real-world drone scenario that uses ${equationName} (${formula}) to solve a problem. Explain your solution process.</p>
+                    <div class="mt-4 p-3 bg-gray-800 rounded-lg border border-gray-700">
+                        <p class="text-sm text-purple-300"><i class="fas fa-lightbulb mr-2"></i> <strong>Hint:</strong> Think about how drones might use ${equationName} in navigation, positioning, or data collection.</p>
+                    </div>
+                `;
+            });
+        }
+        
+        // Check student's answer using AI
         function checkAnswer() {
             attemptsCount++;
             const answer = document.getElementById('studentAnswer').value.trim();
@@ -1280,45 +1338,136 @@
                 return;
             }
             
-            // Simulate AI checking (in a real app, this would call an API)
-            const isCorrect = Math.random() > 0.3; // 70% chance of being correct for demo
-            
-            if (isCorrect) {
-                correctAnswers++;
-                masteryProgress = Math.min(100, masteryProgress + 15);
-                feedbackArea.innerHTML = `
-                    <div class="feedback-correct">
-                        <i class="fas fa-check-circle mr-2"></i> <strong>Correct!</strong> Your solution demonstrates good understanding of ${selectedEquation}.
-                        <div class="mt-3 p-2 bg-gray-800 rounded-lg">
-                            <p class="text-sm"><strong>Detailed Feedback:</strong> Your approach to solving this problem using ${selectedEquation} is accurate. The calculations appear correct, and your explanation shows solid understanding of the concept.</p>
-                        </div>
-                    </div>
-                `;
-                
-                // Check if mastery is complete
-                if (masteryProgress >= 100) {
-                    setTimeout(() => {
-                        showCertificate();
-                    }, 1500);
-                }
-            } else {
-                masteryProgress = Math.max(0, masteryProgress - 5);
-                feedbackArea.innerHTML = `
-                    <div class="feedback-incorrect">
-                        <i class="fas fa-times-circle mr-2"></i> <strong>Not quite right.</strong> There seems to be an issue with your solution.
-                        <div class="mt-3 p-2 bg-gray-800 rounded-lg">
-                            <p class="text-sm"><strong>Suggestions:</strong> Review the application of ${selectedEquation}. Double-check your calculations and ensure you're applying the formula correctly to this specific scenario.</p>
-                        </div>
-                    </div>
-                `;
+            if (!selectedEquation || !currentProblem) {
+                feedbackArea.innerHTML = '<div class="feedback-incorrect"><i class="fas fa-exclamation-circle mr-2"></i> Please select an equation and get a problem first.</div>';
+                feedbackContainer.style.display = 'block';
+                return;
             }
             
-            // Update progress display
-            updateProgressDisplay();
-            
-            // Show feedback
+            // Show loading state
+            feedbackArea.innerHTML = '<p><i class="fas fa-spinner fa-spin mr-2"></i> Analyzing your answer...</p>';
             feedbackContainer.style.display = 'block';
-            document.getElementById('feedbackBadge').textContent = 'New';
+            
+            // Call AI to check the answer
+            callMistralAI(
+                `Evaluate this student's answer to a math problem about drones. Here are the details:
+                
+                Mathematical Concept: ${selectedEquation}
+                Problem: ${currentProblem}
+                Correct Solution: ${currentSolution}
+                Student's Answer: ${answer}
+                
+                Provide evaluation with:
+                1. Is the answer correct? (true/false)
+                2. Detailed feedback on what's good and what needs improvement
+                3. Explanation of the correct solution if needed
+                4. Suggestions for improvement
+                
+                Format the response as a JSON object with these keys:
+                correct, feedback, explanation, suggestions`
+            ).then(response => {
+                try {
+                    const data = JSON.parse(response);
+                    
+                    if (data.correct === true) {
+                        correctAnswers++;
+                        masteryProgress = Math.min(100, masteryProgress + 15);
+                        feedbackArea.innerHTML = `
+                            <div class="feedback-correct">
+                                <i class="fas fa-check-circle mr-2"></i> <strong>Correct!</strong> ${data.feedback || 'Your solution demonstrates good understanding of ' + selectedEquation}
+                                <div class="mt-3 p-2 bg-gray-800 rounded-lg">
+                                    <p class="text-sm"><strong>Detailed Feedback:</strong> ${data.suggestions || 'Great job applying this concept correctly!'}</p>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Check if mastery is complete
+                        if (masteryProgress >= 100) {
+                            setTimeout(() => {
+                                showCertificate();
+                            }, 1500);
+                        }
+                    } else {
+                        masteryProgress = Math.max(0, masteryProgress - 5);
+                        feedbackArea.innerHTML = `
+                            <div class="feedback-incorrect">
+                                <i class="fas fa-times-circle mr-2"></i> <strong>Not quite right.</strong> ${data.feedback || 'There seems to be an issue with your solution.'}
+                                <div class="mt-3 p-2 bg-gray-800 rounded-lg">
+                                    <p class="text-sm"><strong>Explanation:</strong> ${data.explanation || 'Review the application of ' + selectedEquation}</p>
+                                    <p class="text-sm mt-2"><strong>Suggestions:</strong> ${data.suggestions || 'Double-check your calculations and ensure you\'re applying the formula correctly to this specific scenario.'}</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    // Update progress display
+                    updateProgressDisplay();
+                } catch (e) {
+                    console.error('Error parsing evaluation:', e);
+                    // Fallback to simple evaluation
+                    const isCorrect = answer.includes(currentSolution.split(' ')[0]); // Very basic check
+                    
+                    if (isCorrect) {
+                        correctAnswers++;
+                        masteryProgress = Math.min(100, masteryProgress + 15);
+                        feedbackArea.innerHTML = `
+                            <div class="feedback-correct">
+                                <i class="fas fa-check-circle mr-2"></i> <strong>Correct!</strong> Your solution demonstrates good understanding of ${selectedEquation}.
+                            </div>
+                        `;
+                        
+                        if (masteryProgress >= 100) {
+                            setTimeout(() => {
+                                showCertificate();
+                            }, 1500);
+                        }
+                    } else {
+                        masteryProgress = Math.max(0, masteryProgress - 5);
+                        feedbackArea.innerHTML = `
+                            <div class="feedback-incorrect">
+                                <i class="fas fa-times-circle mr-2"></i> <strong>Not quite right.</strong> There seems to be an issue with your solution.
+                                <div class="mt-3 p-2 bg-gray-800 rounded-lg">
+                                    <p class="text-sm"><strong>Correct Solution:</strong> ${currentSolution}</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    updateProgressDisplay();
+                }
+            }).catch(error => {
+                console.error('Error evaluating answer:', error);
+                // Fallback to simple evaluation
+                const isCorrect = answer.includes(currentSolution.split(' ')[0]); // Very basic check
+                
+                if (isCorrect) {
+                    correctAnswers++;
+                    masteryProgress = Math.min(100, masteryProgress + 15);
+                    feedbackArea.innerHTML = `
+                        <div class="feedback-correct">
+                            <i class="fas fa-check-circle mr-2"></i> <strong>Correct!</strong> Your solution demonstrates good understanding of ${selectedEquation}.
+                        </div>
+                    `;
+                    
+                    if (masteryProgress >= 100) {
+                        setTimeout(() => {
+                            showCertificate();
+                        }, 1500);
+                    }
+                } else {
+                    masteryProgress = Math.max(0, masteryProgress - 5);
+                    feedbackArea.innerHTML = `
+                        <div class="feedback-incorrect">
+                            <i class="fas fa-times-circle mr-2"></i> <strong>Not quite right.</strong> There seems to be an issue with your solution.
+                            <div class="mt-3 p-2 bg-gray-800 rounded-lg">
+                                <p class="text-sm"><strong>Correct Solution:</strong> ${currentSolution}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                updateProgressDisplay();
+            });
         }
         
         // Update progress display
@@ -1341,7 +1490,7 @@
         // Show certificate
         function showCertificate() {
             const certificateContainer = document.getElementById('certificateContainer');
-            const studentName = "Alex Johnson"; // In a real app, this would come from user profile
+            const studentName = document.getElementById('profileName').value || "Student";
             const today = new Date();
             const dateStr = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             
@@ -1378,10 +1527,14 @@
             
             if (currentLanguage === 'hindi') {
                 button.innerHTML = '<i class="fas fa-language mr-2"></i> English';
-                // In a real app, we would translate the interface here
+                translateToHindi(true);
             } else {
                 button.innerHTML = '<i class="fas fa-language mr-2"></i> हिंदी (Hindi)';
                 // In a real app, we would translate back to English here
+                // For demo, we'll just reload the content in English
+                if (selectedEquation) {
+                    selectEquationFromAI(selectedEquation);
+                }
             }
         }
         
@@ -1424,12 +1577,27 @@
         }
         
         // Translate answer to Hindi using AI
-        function translateToHindi() {
-            const answer = document.getElementById('studentAnswer').value.trim();
+        function translateToHindi(fullPage = false) {
+            let textToTranslate = '';
             
-            if (!answer) {
-                alert('Please enter your answer first.');
-                return;
+            if (fullPage) {
+                // Translate the entire page content
+                textToTranslate = `Translate this STEM learning content to Hindi while keeping all technical terms accurate:
+                
+                Selected Concept: ${selectedEquation}
+                Problem: ${currentProblem}
+                Current Explanation: ${document.getElementById('studentAnswer').value || 'No answer yet'}
+                
+                Please provide the Hindi translation for all of this content.`;
+            } else {
+                const answer = document.getElementById('studentAnswer').value.trim();
+                
+                if (!answer) {
+                    alert('Please enter your answer first.');
+                    return;
+                }
+                
+                textToTranslate = answer;
             }
             
             // Show loading state
@@ -1439,16 +1607,30 @@
             
             // Call Mistral AI API to translate to Hindi
             callMistralAI(
-                `Translate this mathematical explanation to Hindi while keeping all technical terms accurate. Here's the original English text:\n\n${answer}`
+                `Translate this STEM/mathematical content to Hindi while keeping all technical terms accurate. Here's the original English text:\n\n${textToTranslate}`
             ).then(response => {
-                feedbackArea.innerHTML = `
-                    <div class="feedback-correct">
-                        <i class="fas fa-language mr-2"></i> <strong>Hindi Translation:</strong>
-                        <div class="mt-3 p-3 bg-gray-800 rounded-lg">
-                            <p>${response}</p>
+                if (fullPage) {
+                    // For demo purposes, we'll just show the translation in the feedback area
+                    // In a real app, we would update the entire page content
+                    feedbackArea.innerHTML = `
+                        <div class="feedback-correct">
+                            <i class="fas fa-language mr-2"></i> <strong>Hindi Translation:</strong>
+                            <div class="mt-3 p-3 bg-gray-800 rounded-lg">
+                                <p>${response}</p>
+                                <p class="text-sm text-gray-400 mt-2">Note: In the full application, all content would be translated to Hindi.</p>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                } else {
+                    feedbackArea.innerHTML = `
+                        <div class="feedback-correct">
+                            <i class="fas fa-language mr-2"></i> <strong>Hindi Translation:</strong>
+                            <div class="mt-3 p-3 bg-gray-800 rounded-lg">
+                                <p>${response}</p>
+                            </div>
+                        </div>
+                    `;
+                }
             }).catch(error => {
                 feedbackArea.innerHTML = `
                     <div class="feedback-incorrect">
@@ -1602,6 +1784,63 @@
         function viewCertificate(certName) {
             document.getElementById('certificateEquation').textContent = certName;
             showCertificate();
+        }
+        
+        // Save profile
+        function saveProfile() {
+            const name = document.getElementById('profileName').value.trim();
+            const email = document.getElementById('profileEmail').value.trim();
+            const college = document.getElementById('profileCollege').value.trim();
+            const grade = document.getElementById('profileGrade').value;
+            const age = document.getElementById('profileAge').value;
+            
+            if (!name || !email || !college || !grade || !age) {
+                document.getElementById('profileStatus').className = 'bg-red-900 text-red-100';
+                document.getElementById('profileStatusText').textContent = 'Please fill all fields';
+                document.getElementById('profileStatus').classList.remove('hidden');
+                return;
+            }
+            
+            // Save to localStorage
+            const profile = {
+                name: name,
+                email: email,
+                college: college,
+                grade: grade,
+                age: age
+            };
+            
+            localStorage.setItem('droneProfile', JSON.stringify(profile));
+            
+            // Update UI
+            document.getElementById('profileStatus').className = 'bg-green-900 text-green-100';
+            document.getElementById('profileStatusText').textContent = 'Profile saved successfully!';
+            document.getElementById('profileStatus').classList.remove('hidden');
+            
+            // Update class select in main section
+            document.getElementById('classSelect').value = grade;
+            currentGradeLevel = grade;
+            
+            setTimeout(() => {
+                document.getElementById('profileStatus').classList.add('hidden');
+            }, 3000);
+        }
+        
+        // Load profile
+        function loadProfile() {
+            const profile = JSON.parse(localStorage.getItem('droneProfile'));
+            
+            if (profile) {
+                document.getElementById('profileName').value = profile.name || '';
+                document.getElementById('profileEmail').value = profile.email || '';
+                document.getElementById('profileCollege').value = profile.college || '';
+                document.getElementById('profileGrade').value = profile.grade || '';
+                document.getElementById('profileAge').value = profile.age || '';
+                
+                // Update class select in main section
+                document.getElementById('classSelect').value = profile.grade || '8';
+                currentGradeLevel = profile.grade || '8';
+            }
         }
         
         // Call Mistral AI API
