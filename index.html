@@ -149,7 +149,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: none;
-            font-family: 'Exo 2', sans-serif;
+            font-family: 'Exo 2', sans-serif';
             margin: 5px;
         }
         
@@ -554,7 +554,7 @@
                 <div class="lg:col-span-3">
                     <div class="card mb-8">
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold section-heading"><i class="fas fa-map-marked-alt mr-2"></i> Applied Invention Skills Playground</h2>
+                            <h2 class="text-2xl font-bold section-heading"><i class="fas fa-map-marked-alt mr-2"></i> Applied Invention Skills Program</h2>
                             <div class="flex space-x-3">
                                 <button class="accent-button"><i class="fas fa-download mr-2"></i> Export Data</button>
                                 <button class="accent-button"><i class="fas fa-share-alt mr-2"></i> Share</button>
@@ -612,22 +612,22 @@
                         <!-- Vertical Info Blocks -->
                         <div class="info-vertical mb-8">
                             <div class="info-card">
-                                <h4><i class="fas fa-history mr-2"></i> Historical Context</h4>
-                                <p id="origin">After analyzing the flight path, we'll show the historical development of the relevant mathematical concepts.</p>
+                                <h4><i class="fas fa-book-open mr-2"></i> Rationale</h4>
+                                <p id="origin">After analyzing the flight path, we'll show the rationale behind the relevant mathematical concepts.</p>
                             </div>
                             
                             <div class="info-card">
-                                <h4><i class="fas fa-rocket mr-2"></i> Modern Applications</h4>
-                                <p id="modernUse">Discover how these mathematical concepts are applied in modern technology, especially in drone aviation.</p>
+                                <h4><i class="fas fa-robot mr-2"></i> Modern Applications in Robotics</h4>
+                                <p id="modernUse">Discover how these mathematical concepts are applied in modern robotics technology.</p>
                             </div>
                             
                             <div class="info-card">
-                                <h4><i class="fas fa-drone mr-2"></i> Drone Technology</h4>
-                                <p id="droneImpact">Learn how these equations impact drone flight paths, navigation, and performance optimization.</p>
+                                <h4><i class="fas fa-drone-alt mr-2"></i> Drone Technology Integration</h4>
+                                <p id="droneImpact">Learn how these equations are specifically applied in drone technology.</p>
                             </div>
                             
                             <div class="info-card">
-                                <h4><i class="fas fa-code mr-2"></i> Programming</h4>
+                                <h4><i class="fas fa-code mr-2"></i> Programming Implementation</h4>
                                 <p id="coding">See practical examples of how to implement these mathematical concepts in programming code.</p>
                             </div>
                         </div>
@@ -772,7 +772,7 @@
 
         <!-- Piloting Section -->
         <section id="pilot" class="content-section py-8" style="display: none;">
-            <h2 class="text-2xl font-bold section-heading mb-6"><i class="fas fa-drone mr-2"></i> Drone Piloting Controls</h2>
+            <h2 class="text-2xl font-bold section-heading mb-6"><i class="fas fa-drone-alt mr-2"></i> Drone Piloting Controls</h2>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-2">
@@ -827,6 +827,22 @@
                             <div class="control-btn" onclick="sendDroneCommand('hover')">
                                 <i class="fas fa-pause"></i>
                                 <span>Hover</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('flip')">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Flip</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('photo')">
+                                <i class="fas fa-camera"></i>
+                                <span>Take Photo</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('video')">
+                                <i class="fas fa-video"></i>
+                                <span>Record Video</span>
+                            </div>
+                            <div class="control-btn" onclick="sendDroneCommand('autonomous')">
+                                <i class="fas fa-robot"></i>
+                                <span>Autonomous Mode</span>
                             </div>
                         </div>
                     </div>
@@ -1229,43 +1245,63 @@
             selectedEquation = equationParts[0].trim();
             const formula = equationParts.length > 1 ? equationParts[1].trim() : '';
             
+            // Prepare the prompt with the new structure
+            const prompt = `
+You are an AI embedded inside a STEM education platform (ENIGMA STEM ENGINE). A student has entered this mathematical or physics equation: "${selectedEquation}".
+
+You must return responses in **4 clearly structured sections**:
+
+### 1. 📖 Rationale
+Give a paragraph that explains — like a story — *why this equation was discovered*, its historical motivation, and the problem it aimed to solve. Keep it simple and aligned to school-level understanding.
+
+### 2. 🔧 Modern Applications in Robotics
+List 4–5 bullet points showing how this equation is used in the robotic world today. Mention specific technologies or fields where it is used, and if modern versions or transformations are used (e.g., differential form, matrix form), mention that too.
+
+### 3. 🚁 Drone Technology Integration
+Explain how this equation is (or could be) applied in a drone. If it's not directly used, suggest how to derive or adapt it for drones. Provide full derivation based on the school class level (use simple steps). Emphasize how it influenced or could influence drone flight.
+
+### 4. 💻 Programming Implementation
+Explain how to implement the equation in a program:
+- Step-by-step explanation (one line per concept)
+- Then provide the actual code inside triple backticks with correct formatting
+- Prefer Python or JavaScript
+- Math expressions should be compatible with MathJax rendering
+
+Keep the output educational, story-like, and NEP-aligned to school curriculum standards (Class 6 to 12).`;
+
             // Call AI to get detailed information about this equation
-            callMistralAI(
-                `Provide detailed information about the mathematical concept "${selectedEquation}" (${formula}) for a student. Include:
-                1. Historical context (1 paragraph)
-                2. Modern applications (1 paragraph)
-                3. Drone technology applications (1 paragraph)
-                4. Programming implementation example (code snippet)
-                
-                Format the response as a JSON object with these keys:
-                history, modern, drone, code`
-            ).then(response => {
+            callMistralAI(prompt).then(response => {
                 try {
-                    const data = JSON.parse(response);
-                    document.getElementById('origin').textContent = data.history || 'Historical context not available.';
-                    document.getElementById('modernUse').textContent = data.modern || 'Modern applications not available.';
-                    document.getElementById('droneImpact').textContent = data.drone || 'Drone applications not available.';
-                    document.getElementById('coding').textContent = data.code || 'Code example not available.';
+                    // Parse the response and update the UI sections
+                    const rationaleMatch = response.match(/### 1\. 📖 Rationale([\s\S]*?)### 2\. 🔧/);
+                    const modernMatch = response.match(/### 2\. 🔧 Modern Applications in Robotics([\s\S]*?)### 3\. 🚁/);
+                    const droneMatch = response.match(/### 3\. 🚁 Drone Technology Integration([\s\S]*?)### 4\. 💻/);
+                    const codeMatch = response.match(/### 4\. 💻 Programming Implementation([\s\S]*)/);
+                    
+                    if (rationaleMatch) document.getElementById('origin').innerHTML = rationaleMatch[1].trim();
+                    if (modernMatch) document.getElementById('modernUse').innerHTML = modernMatch[1].trim();
+                    if (droneMatch) document.getElementById('droneImpact').innerHTML = droneMatch[1].trim();
+                    if (codeMatch) document.getElementById('coding').innerHTML = codeMatch[1].trim();
                     
                     // Generate a problem based on this equation
                     generateProblemFromAI(selectedEquation, formula);
                 } catch (e) {
                     console.error('Error parsing AI response:', e);
-                    // Fallback to generic information
-                    document.getElementById('origin').textContent = `The historical development of ${selectedEquation} is fascinating, involving contributions from mathematicians across different cultures and time periods.`;
-                    document.getElementById('modernUse').textContent = `${selectedEquation} has numerous applications in modern technology, including drone navigation, computer graphics, and engineering design.`;
-                    document.getElementById('droneImpact').textContent = `${selectedEquation} plays a crucial role in drone technology, affecting flight stability, navigation accuracy, and operational efficiency.`;
-                    document.getElementById('coding').textContent = `Programming implementation of ${selectedEquation} varies by language but typically involves basic arithmetic operations and sometimes specialized math functions.`;
+                    // Fallback to simple display
+                    document.getElementById('origin').textContent = response;
+                    document.getElementById('modernUse').textContent = response;
+                    document.getElementById('droneImpact').textContent = response;
+                    document.getElementById('coding').textContent = response;
                     
                     generateProblemFromAI(selectedEquation, formula);
                 }
             }).catch(error => {
                 console.error('Error getting equation details:', error);
                 // Fallback to generic information
-                document.getElementById('origin').textContent = `The historical development of ${selectedEquation} is fascinating, involving contributions from mathematicians across different cultures and time periods.`;
-                document.getElementById('modernUse').textContent = `${selectedEquation} has numerous applications in modern technology, including drone navigation, computer graphics, and engineering design.`;
-                document.getElementById('droneImpact').textContent = `${selectedEquation} plays a crucial role in drone technology, affecting flight stability, navigation accuracy, and operational efficiency.`;
-                document.getElementById('coding').textContent = `Programming implementation of ${selectedEquation} varies by language but typically involves basic arithmetic operations and sometimes specialized math functions.`;
+                document.getElementById('origin').textContent = `The rationale behind ${selectedEquation} involves solving real-world problems through mathematical modeling.`;
+                document.getElementById('modernUse').textContent = `${selectedEquation} has numerous applications in modern robotics, from navigation to control systems.`;
+                document.getElementById('droneImpact').textContent = `${selectedEquation} plays a crucial role in drone technology, particularly in flight dynamics and control.`;
+                document.getElementById('coding').textContent = `Programming implementation of ${selectedEquation} varies by language but typically involves basic arithmetic operations.`;
                 
                 generateProblemFromAI(selectedEquation, formula);
             });
